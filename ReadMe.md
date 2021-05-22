@@ -1,9 +1,4 @@
-# Algorithms
-Go to --- `cd GraphAlgorithms` for Algorithms
-<br/>
-Go to --- `cd CodeForcesGraphs` for solution of Graph related problems
-
-#Overview
+# Overview
 ## PART - 1
 1. Graph Representation
 2. Depth First Search (DFS)
@@ -21,7 +16,6 @@ Go to --- `cd CodeForcesGraphs` for solution of Graph related problems
 14. Finding Strongly Connected Components
     1.  Kosaraju's Algorithm
     2.  Tarjans's Algorithm
-    
 ## PART - 2
 1. Lowest Common Ancestor
 2. Min-Max spanning Tree

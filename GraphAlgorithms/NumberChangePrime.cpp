@@ -1,4 +1,4 @@
-/*
+/*              PRIME PATH PROBLEM
 We are given 2 numbers such that we have to convert the first number to the second number
 (given both the numbers are prime)...In one move we can change just one digit
 All the intermediate numbers formed must also be prime
@@ -28,9 +28,9 @@ void bfs(int src)
         {
             if (!visited[child])
             {
-                q.push(child);
                 dist[child] = dist[parent] + 1;
                 visited[child] = 1;
+                q.push(child);
             }
         }
     }
@@ -40,7 +40,7 @@ bool isPrime(int n)
 {
     for (int i = 2; i * i < n; i++)
     {
-        if (n % i)
+        if (n % i == 0)
         {
             return false;
         }
@@ -118,7 +118,7 @@ int main()
 
         if (dist[b] == -1)
         {
-            cout << "-1" << endl;
+            cout << "Impossible" << endl;
         }
         else
         {

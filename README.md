@@ -14,7 +14,8 @@ Go to --- `cd LeetCodeDP` for LeetCode Dynamic Programming Problem Solution
 <br/>
 Go to --- `cd SegmentTree` for SegmentTree Algorithms
 <br/>
-Go to --- `cd BinarySearch` for Binary Search Templates ( **Caution** - *Binary Search is more powerful than you imagine.* )
+Go to --- `cd BinarySearch` for Binary Search Templates 
+( **Caution** - *Binary Search is more powerful than you imagine.* )
 <br/>
 Go to --- `cd CodeforcesBS` for Codeforces Binary Search problem Solutions
 <br/>

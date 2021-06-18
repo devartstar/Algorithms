@@ -18,7 +18,7 @@ void dfs(int node, int distance)
 
     for (int child : ar[node])
     {
-        if (!visited[node])
+        if (!visited[child])
             dfs(child, dist[node] + 1);
     }
 }

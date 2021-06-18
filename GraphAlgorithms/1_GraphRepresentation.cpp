@@ -1,10 +1,15 @@
+/*
+	!!!	
+*/
+
 #include <bits/stdc++.h>
 using namespace std;
 
 void AdjacencyMatrix()
 {
     int n, m, a, b;
-    cin >> n >> m; //n - Edges ||| m-Vertices
+    cin >> n >> m; 
+    //n - Edges ||| m-Vertices
     int graph[n][n];
     memset(graph, 0, sizeof(graph));
     for (int i = 0; i < m; i++)
@@ -26,7 +31,8 @@ void AdjacencyMatrix()
 
 void AdjacencyList()
 {
-    int n, m; //n-Number of Edges ||| m-Number of Vertices
+    int n, m; 
+	//n-Number of Edges ||| m-Number of Vertices
     cin >> n >> m;
     int a, b;
     vector<vector<int>> v(n);

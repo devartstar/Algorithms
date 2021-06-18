@@ -8,7 +8,9 @@ void solve()
     n1 = n;
     long long ans = 0;
 
-    while (n1 > 0)
+    /*
+
+while (n1 > 0)
     {
         c++;
         if (n1 < 10)
@@ -23,6 +25,7 @@ void solve()
     {
         num = num * 10 + fd;
     }
+*/
 
     ans += 9 * (c - 1);
 
@@ -42,4 +45,11 @@ int main()
     {
         solve();
     }
+
 }
+
+
+/*
+  grid far : #00b3ff
+      	      #75ff00				
+*/

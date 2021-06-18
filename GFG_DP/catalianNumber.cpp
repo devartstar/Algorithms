@@ -1,0 +1,58 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ar array
+#define ll long long
+#define vi vector<int>
+#define vll vector<long long>
+#define vpii vector<pair<int,int>>
+#define f0(i, n) for (int i = 0; i < n; i++) // 0 based indexing
+#define f1(i, n) for (int i = 1; i <= n; i++) // 1 based indexing
+#define f(i, a, b) for (int i = a; i <= b; i++) // 1 based indexing
+#define pb push_back
+#define fi first
+#define se second
+
+
+const int MAX_N = 1e5 + 1;
+const ll MOD = 1e9 + 7;
+const ll INF = 1e9;
+
+
+/*
+long long catalan(int n){
+	ll catalan[n+1];
+	catalan[0] = catalan[1] = 1;
+	for(int i = 2; i<=n; i ++){
+		catalan[i] = 0;
+		for(int j=0;j<i;j++){
+			catalan[i] += catalan[j]*catalan[i-j-1];
+		}
+	}
+	return catalan[n];
+}
+*/
+
+long long catalianBinomial(int n, int k){
+	ll res=1;
+	k=min(k,n-k);
+	f0(i,k){
+		res*=(n-i);
+		res/=(i+1);
+	}
+	return res;
+}
+
+int main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
+    int tc = 1;
+    // cin >> tc;
+    f1(t,tc) {
+        // cout << "Case #" << t  << ": ";
+        int n;
+        cin>>n;
+        //cout<<catalan(n)<<endl;
+        cout<<catalianBinomial(2*n,n)/(n+1)<<endl;
+    }
+}

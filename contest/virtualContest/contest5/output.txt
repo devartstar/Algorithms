@@ -1,0 +1,12 @@
+zbac
+-1
+aaa
+ab
+a
+
+
+abab
+-1
+aaa
+ab
+z

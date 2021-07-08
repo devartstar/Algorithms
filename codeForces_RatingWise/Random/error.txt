@@ -1,0 +1,8 @@
+minans [ 3 1 4 2 7 5 6 ]
+maxans [ 3 2 4 1 7 6 5 ]
+minans [ 1 2 3 4 ]
+maxans [ 1 2 3 4 ]
+minans [ 3 4 5 1 2 7 6 ]
+maxans [ 3 4 5 2 1 7 6 ]
+minans [ 1 ]
+maxans [ 1 ]

@@ -36,9 +36,9 @@ const ll INF = 1e9;
 struct Area{
 	int a;
 	int b;
-}
+};
 
-int calc(int A, int B, Area X, Area Y, Area Z, int last, map<pair<int,int>> &memo){
+int calc(int A, int B, Area X, Area Y, Area Z, int last, map<pair<int,int>,int> &memo){
 	if(A<=0||B<=0)
 		return 0;
 	pair<int,int> cur = make_pair(A,B);
@@ -74,7 +74,7 @@ void solve() {
 	int A,B;
 	cout<<"Enter Powers : ";
 	cin>>A>>B;
-	Area X,Y,X;
+	Area X,Y,Z;
 	cout<<"Enter values for Area X ";
 	cin>>X.a>>X.b;
 	cout<<"Enter values for Area Y ";

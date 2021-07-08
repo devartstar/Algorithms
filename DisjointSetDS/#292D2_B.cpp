@@ -3,7 +3,7 @@ using namespace std;
 
 #define ar array
 #define ll long long
-#define vi vector<int>
+#define vector<int> vector<int>
 #define vll vector<long long>
 #define vpii vector<pair<int,int>>
 #define f0(i, n) for (int i = 0; i < n; i++) // 0 based indexing

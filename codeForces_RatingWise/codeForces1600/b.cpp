@@ -1,112 +1,133 @@
-/*
-    -------------------------------------
-    |									|
-    |	Author - Devjit Choudhury		|
-    |	Date   - ___________________ 	|	
-    |    	                            |
-    -------------------------------------
 
-    Link - 
-*/
 
 #include <bits/stdc++.h>
 using namespace std;
 
-#define ar array
-#define ll long long
-#define ull unsigned long long
-#define lld long double
-#define vi vector<int>
-#define pii pair<int,int>
-#define pll pair<long, long>
-#define vll vector<long long>
-#define vpii vector<pair<int,int>>
-#define all(v) v.begin(),v.end()
-#define f0(i, n) for (int i = 0; i < n; i++) // 0 based indexing
-#define f1(i, n) for (int i = 1; i <= n; i++) // 1 based indexing
-#define f(i, a, b) for (int i = a; i <= b; i++) // 1 based indexing
-#define fll0(i, n) for (long long i = 0; i < n; i++) // 0 based indexing
-#define fll1(i, n) for (long long i = 1; i <= n; i++) // 1 based indexing
-#define fll(i, a, b) for (long long i = a; i <= b; i++) // 1 based indexing
-#define pb push_back
-#define ff first
-#define ss second
-#define mp make_pair
-
-#ifndef ONLINE_JUDGE
-#define debug(x) cerr << #x <<" "; _print(x); cerr << endl;
-#else
-#define debug(x)
-#endif
-
-void _print(ll w) {cerr << w;}
-void _print(int w) {cerr << w;}
-void _print(string w) {cerr << w;}
-void _print(char w) {cerr << w;}
-void _print(lld w) {cerr << w;}
-void _print(double w) {cerr << w;}
-void _print(ull w) {cerr << w;}
-
-template <class T, class V> void _print(pair <T, V> p);
-template <class T> void _print(vector <T> v);
-template <class T> void _print(set <T> v);
-template <class T, class V> void _print(map <T, V> v);
-template <class T> void _print(multiset <T> v);
-template <class T, class V> void _print(pair <T, V> p) {cerr << "{"; _print(p.ff); cerr << ","; _print(p.ss); cerr << "}";}
-template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
-template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
-template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
-template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
-
-const int MAX_N = 1e5 + 1;
-const ll MOD = 1e9 + 7;
-const ll INF = 1e9;
-
-ll n,a,b;
-string s;
-
-void solve() {
-    cin>>n>>a>>b;
-    cin>>s;
-    if(b>0){
-        cout<<n*(a+b)<<endl;
-    }else{
-        ll k = 1;
-        f(i,1,s.length()-1){
-            if(s[i]!=s[i-1]){
-                k++;
-            }
-        }
-        cout<<(k/2 + 1)*b + n*a<<endl;
-    }
-}
 
 int main() {
-    ios_base::sync_with_stdio(0);
-    cin.tie(0); cout.tie(0);
-    #ifndef ONLINE_JUDGE
-      freopen("input.txt","r",stdin);
-      freopen("output.txt","w",stdout);
-      freopen("error.txt", "w", stderr);
-    #endif
-    int tc = 1;
-    cin >> tc;
-    f1(t,tc) {
-        // cout << "Case #" << t  << ": ";
-        solve();
-    }
-}
+    int testcase;
+    cin >> testcase;
+    while(testcase--){
+        string a, b;
+        cin>>a>>b;
+        int na = a.length();
+        int nb = b.length();
 
-
-/*
-
-        
-        cout<<k*b + 
-        ll c0=0, c1=0;
-        f0(i,n){
-            if(s[i]=='0')   c0++;
-            if(s[i]=='1')   c1++;
-            cout<<
+        vector<int> v[27];
+        for(int i=0;i<na;i++){
+            v[a[i]-'a'].push_back(i+1);
         }
 
-        */
+        int prev;
+        bool ans = true;
+        for(int i=0;i<nb;i++){
+            bool dofk = false;
+            char ch = b[i];
+            int k = ch - 'a'; 
+            if(i==0){
+                for(int j=0;j<(int)v[k].size();j++){
+                    if(v[k][j]%2==1){
+                        prev = v[k][j];
+                        dofk = true;
+                        break;
+                    }
+                }
+                if(dofk == false){
+                    ans = false;
+                    break;
+                }
+                continue;
+            }
+
+            for(int j=0;j<(int)v[k].size();j++){
+                if(v[k][j]>prev && (v[k][j]-prev-1)%2==0){
+                    prev = v[k][j];
+                    dofk = true;
+                    break;
+                }
+            }
+            if(dofk == false){
+                ans = false;
+                break;
+            }
+            continue;
+
+            if(i==nb-1){
+                for(int j=0;j<(int)v[k].size();j++){
+                    if(v[k][j]>prev && (v[k][j]-prev-1)%2==0 && (na - v[k][j] - 1)%2==0){
+                        prev = v[k][j];
+                        dofk = true;
+                        break;
+                    }
+                }
+            }
+
+            if(dofk == false){
+                ans = false;
+                break;
+            }
+        }
+
+        if(ans){
+            cout<<"YES"<<endl;
+            continue;
+        }
+
+
+        prev = -1;
+        ans = true;
+        for(int i=0;i< nb;i++){
+            bool dofk = false;
+            char ch = b[i];
+            int k = ch - 'a'; 
+            if(i==0){
+                for(int j=0;j<(int)v[k].size();j++){
+                    if(v[k][j]%2==0){
+                        prev = v[k][j];
+                        dofk = true;
+                        break;
+                    }
+                }
+                if(dofk == false){
+                    ans = false;
+                    break;
+                }
+                continue;
+            }
+
+            for(int j=0;j<(int)v[k].size();j++){
+                if(v[k][j]>prev && (v[k][j]-prev-1)%2==0){
+                    prev = v[k][j];
+                    dofk = true;
+                    break;
+                }
+            }
+            if(dofk == false){
+                ans = false;
+                break;
+            }
+            continue;
+
+            if(i==nb-1){
+                for(int j=0;j<(int)v[k].size();j++){
+                    if(v[k][j]>prev && (v[k][j]-prev-1)%2==0 && (na - v[k][j] - 1)%2==0){
+                        prev = v[k][j];
+                        dofk = true;
+                        break;
+                    }
+                }
+            }
+
+            if(dofk == false){
+                ans = false;
+                break;
+            }
+        }
+
+        if(ans){
+            cout<<"YES"<<endl;
+        }else{
+            cout<<"NO"<<endl;
+        }
+    }
+}

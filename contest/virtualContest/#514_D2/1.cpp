@@ -64,21 +64,18 @@ const ll INF = 1e9;
 
 
 void solve() {
-   ll n;
-   cin>>n;
-   bool found = false;
-   f0(i,n){
-       int temp = (n - i*2020);
-       if(temp<0){
-           break;
-       }
-       if(temp%2021==0){
-           found = true;
-           break;
-       }
-   }
-   if(found)    cout<<"YES"<<endl;
-   else         cout<<"NO"<<endl;
+    ll n,l,a;
+    cin>>n>>l>>a;
+    vpii v(n);
+    ll prevendtime = 0;
+    ll c = 0;
+    f0(i,n){
+        cin>>v[i].ff>>v[i].ss;
+        c += (v[i].ff - prevendtime)/a;
+        prevendtime = v[i].ff + v[i].ss;
+    } 
+    c += (l-prevendtime)/a;
+    cout<<c<<endl;
 }
 
 int main() {
@@ -90,7 +87,7 @@ int main() {
       freopen("error.txt", "w", stderr);
     #endif
     int tc = 1;
-    cin >> tc;
+    //cin >> tc;
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
         solve();

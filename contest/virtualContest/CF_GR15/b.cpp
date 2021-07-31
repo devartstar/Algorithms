@@ -2,11 +2,11 @@
     -------------------------------------
     |									|
     |	Author - Devjit Choudhury		|
-    |	Date   - ___________________ 	|	
+    |	Date   - 2021-07-28 13:53:28 	|	
     |    	                            |
     -------------------------------------
 
-    Link - 
+    Link - https://codeforces.com/contest/1552/problem/B
 */
 
 #include <bits/stdc++.h>
@@ -62,23 +62,41 @@ const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
+int arr[50001][5];
+
+bool better(int best, int i){
+    int c = 0;
+    f0(j,5){
+        if(arr[i][j]<arr[best][j])  c++;
+    }
+    return c>=3;
+}
 
 void solve() {
-   ll n;
-   cin>>n;
-   bool found = false;
-   f0(i,n){
-       int temp = (n - i*2020);
-       if(temp<0){
-           break;
-       }
-       if(temp%2021==0){
-           found = true;
-           break;
-       }
-   }
-   if(found)    cout<<"YES"<<endl;
-   else         cout<<"NO"<<endl;
+    int n;
+    cin>>n;
+    f1(i,n){
+        f0(j,5){
+            cin>>arr[i][j];
+        }
+    }
+    int best = 1;
+    f(i,2,n){
+        if(better(best,i)){
+            best = i;
+        }
+    }
+    debug(best);
+    // is best really best
+    f1(i,n){
+        if(i==best) continue;
+        if(better(best,i)){
+            cout<<-1<<endl;
+            return;
+        }
+    }
+    cout<<best<<endl;
+    return;
 }
 
 int main() {

@@ -64,21 +64,53 @@ const ll INF = 1e9;
 
 
 void solve() {
-   ll n;
-   cin>>n;
-   bool found = false;
-   f0(i,n){
-       int temp = (n - i*2020);
-       if(temp<0){
-           break;
-       }
-       if(temp%2021==0){
-           found = true;
-           break;
-       }
-   }
-   if(found)    cout<<"YES"<<endl;
-   else         cout<<"NO"<<endl;
+    int n;
+    cin>>n;
+    debug(n);
+    ll mx = -1*INF, mn = INF;
+    int npos = 0, nneg = 0; 
+    bool onaxis =false;
+    int conaxis = 0;
+    int finx;
+    vpii v(n);
+    f0(i,n){
+        debug(i);
+        cin>>v[i].ff>>v[i].ss;
+        if(v[i].ff<mn)  mn = v[i].ff;
+        if(v[i].ff>mx)  mx = v[i].ff; 
+        if(v[i].ss>0)   npos++;
+        if(v[i].ss<0)   nneg++;
+        if(v[i].ss==0){
+            conaxis++;
+            onaxis = true;
+            finx = v[i].ff;
+        }
+    }
+    if(npos>0 && nneg>0){
+        cout<<-1<<endl;
+        return;
+    }
+    debug(v);
+    double x1; 
+    if(onaxis==false){
+        x1 = ((mn + mx)*1.0)/2;
+    }else{
+        if(conaxis>1){
+            cout<<-1<<endl;
+            return;
+        }else{
+            x1 = finx*1.0;
+        }
+    }
+    debug(x1);
+    vector<double> radius;
+    f0(i,n){
+        double temp = (((v[i].ff*1.0 - x1)*(v[i].ff*1.0 - x1) + v[i].ss*v[i].ss)*1.0)/(2*v[i].ss);
+        radius.pb(temp);
+    }
+    debug(radius);
+    double finval = *max_element(all(radius));
+    printf("%.9f",finval);
 }
 
 int main() {
@@ -90,7 +122,7 @@ int main() {
       freopen("error.txt", "w", stderr);
     #endif
     int tc = 1;
-    cin >> tc;
+    //cin >> tc;
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
         solve();

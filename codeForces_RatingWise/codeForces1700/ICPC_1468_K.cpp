@@ -2,11 +2,11 @@
     -------------------------------------
     |									|
     |	Author - Devjit Choudhury		|
-    |	Date   - ___________________ 	|	
+    |	Date   - 2021-07-27 19:55:54 	|	
     |    	                            |
     -------------------------------------
 
-    Link - 
+    Link - https://codeforces.com/problemset/problem/1468/K
 */
 
 #include <bits/stdc++.h>
@@ -62,23 +62,87 @@ const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
+/*
+    COMMAND OPERATIONS - 
+    L -> (x,y) => (x,y-1)
+    R -> (x,y) => (x,y+1)
+    U -> (x,y) => (x-1,y)
+    D -> (x,y) => (x+1,y)
+
+    OBSTACLE CAN HINDER MOTION IN ONLY ONE DIRECTION ( L OR R) || (T OR D)
+    for the other L==R || T==D
+    else NO ANSWER
+*/
 
 void solve() {
-   ll n;
-   cin>>n;
-   bool found = false;
-   f0(i,n){
-       int temp = (n - i*2020);
-       if(temp<0){
-           break;
-       }
-       if(temp%2021==0){
-           found = true;
-           break;
-       }
-   }
-   if(found)    cout<<"YES"<<endl;
-   else         cout<<"NO"<<endl;
+    string s;
+    cin>>s;
+    vpii block;
+    int x=0, y=0;
+    f0(i,s.length()){
+        if(s[i]=='U'){
+            y++;
+            block.pb({x,y});
+        }
+        if(s[i]=='D'){
+            y--;
+            block.pb({x,y});
+        }
+        if(s[i]=='L'){
+            x--;
+            block.pb({x,y});
+        }
+        if(s[i]=='R'){
+            x++;
+            block.pb({x,y});
+        }
+    }
+    debug(block);
+    bool found = false;
+    int finx,finy;
+    int posx, posy; 
+    for(pii p : block){
+        posx = posy = 0;
+        f0(i,s.length()){
+            if(s[i]=='L'){
+                if(posx-1 == p.ff && posy == p.ss)  
+                    continue;
+                else                
+                    posx--;
+            }
+            if(s[i]=='R'){
+                if(posx+1 == p.ff && posy == p.ss)  
+                    continue;
+                else                
+                    posx++;
+            }
+            if(s[i]=='U'){
+                if(posy+1 == p.ss && posx == p.ff)   
+                    continue;
+                else                
+                    posy++;
+            }
+            if(s[i]=='D'){
+                if(posy-1 == p.ss && posx == p.ff)   
+                    continue;
+                else                
+                    posy--;
+            }
+        }
+
+        if(posx==0 && posy==0){
+            found = true;
+            finx = p.ff;
+            finy = p.ss;
+            break;
+        }
+    }
+    if(found == false){
+        cout<<"0 0"<<endl;
+    }else{
+        cout<<finx<<" "<<finy<<endl;
+    }
+
 }
 
 int main() {

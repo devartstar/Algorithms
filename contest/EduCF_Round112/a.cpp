@@ -1,3 +1,4 @@
+
 /*
     -------------------------------------
     |									|
@@ -5,13 +6,13 @@
     |	Date   - ___________________ 	|	
     |    	                            |
     -------------------------------------
-
+ 
     Link - 
 */
-
+ 
 #include <bits/stdc++.h>
 using namespace std;
-
+ 
 #define ar array
 #define ll long long
 #define ull unsigned long long
@@ -32,13 +33,13 @@ using namespace std;
 #define ff first
 #define ss second
 #define mp make_pair
-
+ 
 #ifndef ONLINE_JUDGE
 #define debug(x) cerr << #x <<" "; _print(x); cerr << endl;
 #else
 #define debug(x)
 #endif
-
+ 
 void _print(ll w) {cerr << w;}
 void _print(int w) {cerr << w;}
 void _print(string w) {cerr << w;}
@@ -46,7 +47,7 @@ void _print(char w) {cerr << w;}
 void _print(lld w) {cerr << w;}
 void _print(double w) {cerr << w;}
 void _print(ull w) {cerr << w;}
-
+ 
 template <class T, class V> void _print(pair <T, V> p);
 template <class T> void _print(vector <T> v);
 template <class T> void _print(set <T> v);
@@ -57,30 +58,24 @@ template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_prin
 template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
-
+ 
 const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
-
-
+ 
+ 
 void solve() {
-   ll n;
-   cin>>n;
-   bool found = false;
-   f0(i,n){
-       int temp = (n - i*2020);
-       if(temp<0){
-           break;
-       }
-       if(temp%2021==0){
-           found = true;
-           break;
-       }
-   }
-   if(found)    cout<<"YES"<<endl;
-   else         cout<<"NO"<<endl;
+    ll n;
+    cin>>n;
+    if(n<=6){
+        cout<<15<<endl;
+        return;
+    }else{
+        cout<<(ll)ceil((n*1.0)/2) * 5<<endl;
+    }
+ 
 }
-
+ 
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);

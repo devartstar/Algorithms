@@ -2,11 +2,11 @@
     -------------------------------------
     |									|
     |	Author - Devjit Choudhury		|
-    |	Date   - ___________________ 	|	
+    |	Date   - 2021-07-27 19:49:49 	|	
     |    	                            |
     -------------------------------------
 
-    Link - 
+    Link - https://codeforces.com/contest/756/problem/A
 */
 
 #include <bits/stdc++.h>
@@ -62,23 +62,36 @@ const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
+vll v(200005);
+vll visited(200005);
+
+void dfs(ll node){
+    visited[node]=1;
+    if(!visited[v[node]])   dfs(v[node]);
+}
 
 void solve() {
-   ll n;
-   cin>>n;
-   bool found = false;
-   f0(i,n){
-       int temp = (n - i*2020);
-       if(temp<0){
-           break;
-       }
-       if(temp%2021==0){
-           found = true;
-           break;
-       }
-   }
-   if(found)    cout<<"YES"<<endl;
-   else         cout<<"NO"<<endl;
+    ll n;
+    cin>>n;
+    fll1(i,n) cin>>v[i];
+    ll x, c=0;
+    ll ans = 0;
+    fll1(i,n){
+        cin>>x; 
+        if(x)   c++;
+    }
+    if(c%2==0){
+        ans++;
+    } 
+    debug(ans);
+    ll cnt = 0;
+    fll1(i,n){
+        if(!visited[i]){
+            dfs(i);
+            cnt++;
+        }
+    }
+    cout<<ans+(cnt>1?cnt:0)<<endl;
 }
 
 int main() {
@@ -90,7 +103,7 @@ int main() {
       freopen("error.txt", "w", stderr);
     #endif
     int tc = 1;
-    cin >> tc;
+    //cin >> tc;
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
         solve();

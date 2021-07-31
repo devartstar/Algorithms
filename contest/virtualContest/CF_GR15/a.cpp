@@ -2,11 +2,11 @@
     -------------------------------------
     |									|
     |	Author - Devjit Choudhury		|
-    |	Date   - ___________________ 	|	
+    |	Date   - 2021-07-28 13:53:40 	|	
     |    	                            |
     -------------------------------------
 
-    Link - 
+    Link - https://codeforces.com/contest/1552/problem/A
 */
 
 #include <bits/stdc++.h>
@@ -64,21 +64,19 @@ const ll INF = 1e9;
 
 
 void solve() {
-   ll n;
-   cin>>n;
-   bool found = false;
-   f0(i,n){
-       int temp = (n - i*2020);
-       if(temp<0){
-           break;
-       }
-       if(temp%2021==0){
-           found = true;
-           break;
-       }
-   }
-   if(found)    cout<<"YES"<<endl;
-   else         cout<<"NO"<<endl;
+    int n;
+    cin>>n;
+    string s;
+    cin>>s; 
+    string s1 = s;
+    sort(all(s1));
+    int c=0;
+    f0(i,n){
+        if(s[i]!=s1[i]){
+            c++;
+        }
+    }
+    cout<<c<<endl;
 }
 
 int main() {

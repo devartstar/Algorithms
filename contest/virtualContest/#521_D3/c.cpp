@@ -64,21 +64,31 @@ const ll INF = 1e9;
 
 
 void solve() {
-   ll n;
-   cin>>n;
-   bool found = false;
-   f0(i,n){
-       int temp = (n - i*2020);
-       if(temp<0){
-           break;
-       }
-       if(temp%2021==0){
-           found = true;
-           break;
-       }
-   }
-   if(found)    cout<<"YES"<<endl;
-   else         cout<<"NO"<<endl;
+    ll n;
+    cin>>n; 
+    vector<pll> v(n);
+    ll sum = 0;
+    f0(i,n){
+        cin>>v[i].ff;   v[i].ss = i+1; sum += v[i].ff;
+    }
+    sort(all(v));
+    vll ans;
+    f0(i,n){
+        ll temp = sum;
+        temp = temp - v[i].ff;
+        if(i<n-1){
+            if(temp == 2*v[n-1].ff){
+                ans.pb(v[i].ss);
+            }
+        }else if(i==n-1){
+            if(temp == 2*v[n-2].ff){
+                ans.pb(v[i].ss);
+            }
+        }
+    }
+    cout<<(ll)ans.size()<<endl;
+    for(ll x : ans)    cout<<x<<" ";
+    cout<<endl; 
 }
 
 int main() {
@@ -90,7 +100,7 @@ int main() {
       freopen("error.txt", "w", stderr);
     #endif
     int tc = 1;
-    cin >> tc;
+    //cin >> tc;
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
         solve();

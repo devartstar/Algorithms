@@ -62,23 +62,48 @@ const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
+vi freq(200005);
+int n, k;
+int mx = -1;
+vi ans;
+
+bool check(int mid){
+    ans.clear();
+    ll sum = 0;
+    f1(i, mx){
+        sum += (freq[i]/mid);
+        ans.insert(ans.end(), freq[i]/mid, i);
+    }   
+    debug(mid);
+    debug(sum);
+    return (sum>=k);
+}
 
 void solve() {
-   ll n;
-   cin>>n;
-   bool found = false;
-   f0(i,n){
-       int temp = (n - i*2020);
-       if(temp<0){
-           break;
-       }
-       if(temp%2021==0){
-           found = true;
-           break;
-       }
-   }
-   if(found)    cout<<"YES"<<endl;
-   else         cout<<"NO"<<endl;
+    cin>>n>>k;
+    vi v(n+1);
+    f1(i,n){
+        cin>>v[i];
+        if(v[i]>mx) mx = v[i];
+        freq[v[i]]++;
+    }
+    // f0(i,10)    cout<<i<<" "<<freq[i]<<endl;
+    int left = 1, right = n+1;
+    vi res;
+    while(left<=right){
+        int mid = left + (right - left)/2;
+        if(check(mid)){
+            left = mid + 1;
+            res = ans;
+        }else{
+            right = mid - 1;
+        }
+    }
+
+    for(int i=0;i<min(k,(int)res.size());i++){
+         cout<<res[i]<<" ";
+    }   
+    cout<<endl;
 }
 
 int main() {
@@ -90,7 +115,7 @@ int main() {
       freopen("error.txt", "w", stderr);
     #endif
     int tc = 1;
-    cin >> tc;
+    //cin >> tc;
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
         solve();

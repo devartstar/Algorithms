@@ -2,11 +2,11 @@
     -------------------------------------
     |									|
     |	Author - Devjit Choudhury		|
-    |	Date   - ___________________ 	|	
+    |	Date   - 2021-07-28 16:02:55 	|	
     |    	                            |
     -------------------------------------
 
-    Link - 
+    Link - https://codeforces.com/contest/1552/problem/C
 */
 
 #include <bits/stdc++.h>
@@ -64,21 +64,53 @@ const ll INF = 1e9;
 
 
 void solve() {
-   ll n;
-   cin>>n;
-   bool found = false;
-   f0(i,n){
-       int temp = (n - i*2020);
-       if(temp<0){
-           break;
-       }
-       if(temp%2021==0){
-           found = true;
-           break;
-       }
-   }
-   if(found)    cout<<"YES"<<endl;
-   else         cout<<"NO"<<endl;
+    int n,k;
+    cin>>n>>k;
+    debug(n);
+    debug(k);
+    vector<bool> free(2*n+1);
+    f0(i,2*n+1)   free[i] = true;
+
+    vpii v(k+1);
+    int free_cnt = 2*n;
+    f1(i,k){
+        cin>>v[i].ff>>v[i].ss;
+        free_cnt -= 2;
+        free[v[i].ff] = free[v[i].ss] = false;
+    }
+    debug(v);
+    // calculate (n-k C 2)
+    // this is the number of intersections of extra chords among themselves 
+    ll ans = ((n-k)*(n-k-1))/2;
+    debug(ans);
+
+    f1(i,k){
+
+        // this is the numebr of intersection of the extra chords with existing chords
+        int a = v[i].ff;
+        int b = v[i].ss;
+        if(a>b) swap(a,b);
+        int c = 0;
+        for(int j=a;j<=b;j++){
+            if(free[j])  c++;
+        }
+        debug(free_cnt);
+        debug(c);
+        ans += min(c, free_cnt - c);
+
+        // this is the number of intersection of the chord v[i] with other chords
+        for(int j = i+1 ;j<=k; j++){
+            int x = v[j].ff;
+            int y = v[j].ss;
+            if((a<x && x<b)^(a<y && y<b)){
+                ans ++;
+            }
+        }
+    }
+    
+    cout<<ans<<endl;
+
+
 }
 
 int main() {

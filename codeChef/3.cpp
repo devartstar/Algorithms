@@ -64,21 +64,43 @@ const ll INF = 1e9;
 
 
 void solve() {
-   ll n;
-   cin>>n;
-   bool found = false;
-   f0(i,n){
-       int temp = (n - i*2020);
-       if(temp<0){
-           break;
-       }
-       if(temp%2021==0){
-           found = true;
-           break;
-       }
-   }
-   if(found)    cout<<"YES"<<endl;
-   else         cout<<"NO"<<endl;
+    int n;
+    cin>>n;
+    vi a(n), b(n);
+    f0(i,n) cin>>a[i];
+    f0(i,n) cin>>b[i];
+    
+    vi temp(n);
+    f0(i,n) temp[i] = (a[0]+b[i])%n;
+    int val = *min_element(all(temp));
+
+    vi res(n,n+1);
+    f0(i,n){
+        if((b[i]+a[0])%n == val){
+            int start = i;
+            debug(start);
+            int k = 0;
+            vi tempres;
+            while(k<n){
+                int pos = (start+k)%n;
+                debug(k);
+                debug(pos);
+                debug((a[k]+b[pos])%n);
+                if((a[k]+b[pos])%n<=res[k]){
+                    tempres.pb((a[k]+b[pos])%n);
+                }else{
+                    break;
+                }
+                k++;
+            }
+            if(k==n){
+                res = tempres;
+            }
+            debug(res);
+        }
+    }
+    f0(i,(int)res.size())   cout<<res[i]<<" ";
+    cout<<endl;
 }
 
 int main() {

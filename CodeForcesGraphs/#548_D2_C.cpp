@@ -62,23 +62,59 @@ const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
+vi red[100001];
+vi black[100001];
+vi visited(100001);
+int counter = 0;
+
+void dfs(int node){
+    visited[node] = 1;
+    counter++;
+    for(int child : red[node]){
+        if(!visited[child]){
+            dfs(child);
+        }
+    }
+}
 
 void solve() {
-   ll n;
-   cin>>n;
-   bool found = false;
-   f0(i,n){
-       int temp = (n - i*2020);
-       if(temp<0){
-           break;
-       }
-       if(temp%2021==0){
-           found = true;
-           break;
-       }
-   }
-   if(found)    cout<<"YES"<<endl;
-   else         cout<<"NO"<<endl;
+    int n,k;
+    cin>>n>>k;
+    int bfreq[n+1];
+    int rfreq[n+1];
+    f0(i,n+1){
+        bfreq[i]=0;
+        rfreq[i]=0;
+    }
+
+    f0(i,n-1){
+        int a,b,c;
+        cin>>a>>b>>c;
+        if(c==1){
+            black[a].pb(b);
+            black[b].pb(a);
+            bfreq[a]=1;
+            bfreq[b]=1;
+        }
+        if(c==0){
+            red[a].pb(b);
+            red[b].pb(a);
+            rfreq[a]=1;
+            rfreq[b]=1;
+        }
+    }
+    ll ans = 0;
+    f1(i,n){
+        if(!visited[i]){
+            dfs(i); //  number of nodes in this connected component
+            ans += (counter)^k;
+            counter = 0;
+        }
+    }
+    // find number of nodes in set black - not in set red
+    ll c = 0;
+    f1(i,n) 
+        if(bfreq[i]==1 && rfreq[i]==0)  c++;
 }
 
 int main() {
@@ -90,7 +126,7 @@ int main() {
       freopen("error.txt", "w", stderr);
     #endif
     int tc = 1;
-    cin >> tc;
+    //cin >> tc;
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
         solve();

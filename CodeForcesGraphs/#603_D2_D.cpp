@@ -2,11 +2,11 @@
     -------------------------------------
     |									|
     |	Author - Devjit Choudhury		|
-    |	Date   - ___________________ 	|	
+    |	Date   - 2021-07-26 15:26:02 	|	
     |    	                            |
     -------------------------------------
 
-    Link - 
+    Link - https://codeforces.com/problemset/problem/1263/D
 */
 
 #include <bits/stdc++.h>
@@ -58,27 +58,60 @@ template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 
-const int MAX_N = 1e5 + 1;
+const int MAX_N = 200005;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
+vi graph[MAX_N];
+vi visited(MAX_N);
+
+void dfs(int node){
+    visited[node] = 1;
+    for(int child : graph[node]){
+        if(!visited[child]){
+            dfs(child);
+        }
+    }
+}
 
 void solve() {
-   ll n;
-   cin>>n;
-   bool found = false;
-   f0(i,n){
-       int temp = (n - i*2020);
-       if(temp<0){
-           break;
-       }
-       if(temp%2021==0){
-           found = true;
-           break;
-       }
-   }
-   if(found)    cout<<"YES"<<endl;
-   else         cout<<"NO"<<endl;
+    int n;
+    cin>>n; 
+    vi v[26];
+    set<int> st;
+    f1(i,n){
+        string temp;
+        cin>>temp;
+        for(char ch : temp){
+            st.insert(ch-'a');
+            v[ch-'a'].pb(i);
+        }
+    }
+    for(int i=0;i<26;i++){
+        debug(v[i]);
+    }
+    f0(i,26){
+        if((int)v[i].size()>0){
+            int x = v[i][0];
+            f1(j,(int)v[i].size()-1){
+                graph[x].pb(v[i][j]);
+                graph[v[i][j]].pb(x);
+            }
+        }
+    }
+    ll c=0;
+    f1(i,n){
+        debug(i);
+        debug(graph[i]);
+    }
+    f1(i,n){
+        if(!visited[i]){
+            debug(i);
+            c++;
+            dfs(i);
+        }
+    }
+    cout<<c<<endl;
 }
 
 int main() {
@@ -90,9 +123,38 @@ int main() {
       freopen("error.txt", "w", stderr);
     #endif
     int tc = 1;
-    cin >> tc;
+    // cin >> tc;
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
         solve();
     }
 }
+
+
+
+/*
+char -> indices containing that character  in (10^6)
+a -  1, 3, 6, 8
+b -  2, 4, 6, 9
+c -  1, 8
+d -
+e -
+f -
+. 
+. 
+. 
+. 
+. 
+. 
+x - 5, 7
+y - 7, 10
+z - 
+
+
+1 - 3 - 6 - 8
+        |
+2 - 4 -- --9
+
+5 -- 7 --10
+
+*/

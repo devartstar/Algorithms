@@ -2,11 +2,11 @@
     -------------------------------------
     |									|
     |	Author - Devjit Choudhury		|
-    |	Date   - ___________________ 	|	
+    |	Date   - 2021-07-26 12:40:03 	|	
     |    	                            |
     -------------------------------------
 
-    Link - 
+    Link - https://codeforces.com/problemset/problem/1437/D
 */
 
 #include <bits/stdc++.h>
@@ -64,21 +64,46 @@ const ll INF = 1e9;
 
 
 void solve() {
-   ll n;
-   cin>>n;
-   bool found = false;
-   f0(i,n){
-       int temp = (n - i*2020);
-       if(temp<0){
-           break;
-       }
-       if(temp%2021==0){
-           found = true;
-           break;
-       }
-   }
-   if(found)    cout<<"YES"<<endl;
-   else         cout<<"NO"<<endl;
+    int n;
+    cin>>n;
+    vi v(n);
+    f0(i,n) cin>>v[i];
+    vi level[n+1];
+    level[0].pb(1);
+
+    int end=1;
+    int i;
+    bool done = false;
+    for(i=0;i<=n;i++){
+        for(int x : level[i]){
+            level[i+1].pb(v[end]);
+            end++;
+            while(end<n){
+                if(v[end]>v[end-1]){
+                    level[i+1].pb(v[end]);
+                    end++;  
+                }else{
+                    break;
+                }
+            }
+            if(end>=n){
+                done = true;
+                break;
+            }
+        }
+        if(done){
+            break;
+        }
+    }
+    
+    int j = 0;
+    while(j<n){
+        if((int)level[j].size()==0){
+            break;
+        }
+        j++;
+    }
+    cout<<j-1<<endl;
 }
 
 int main() {

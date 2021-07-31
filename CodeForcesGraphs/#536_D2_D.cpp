@@ -2,11 +2,11 @@
     -------------------------------------
     |									|
     |	Author - Devjit Choudhury		|
-    |	Date   - ___________________ 	|	
+    |	Date   - 2021-07-29 10:27:11 	|	
     |    	                            |
     -------------------------------------
 
-    Link - 
+    Link - https://codeforces.com/problemset/problem/1106/D
 */
 
 #include <bits/stdc++.h>
@@ -62,23 +62,36 @@ const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
+vi v[MAX_N];
+vi visited(MAX_N);
+vi ans;
+int n,m;
 
 void solve() {
-   ll n;
-   cin>>n;
-   bool found = false;
-   f0(i,n){
-       int temp = (n - i*2020);
-       if(temp<0){
-           break;
-       }
-       if(temp%2021==0){
-           found = true;
-           break;
-       }
-   }
-   if(found)    cout<<"YES"<<endl;
-   else         cout<<"NO"<<endl;
+    cin>>n>>m; 
+    f0(i,m){
+        int a, b;
+        cin>>a>>b;
+        v[a].pb(b);
+        v[b].pb(a);
+    }
+    set<int> s;
+    s.insert(1);
+    while(!s.empty()){
+        int node = *s.begin();
+        visited[node] = 1;
+        ans.pb(node);
+        s.erase(s.begin());
+        for(int child : v[node]){
+            if(!visited[child]){
+                s.insert(child);
+            }
+        }
+    }
+    for(int x : ans){
+        cout<<x<<" ";
+    }
+    cout<<endl;
 }
 
 int main() {
@@ -90,7 +103,7 @@ int main() {
       freopen("error.txt", "w", stderr);
     #endif
     int tc = 1;
-    cin >> tc;
+    //cin >> tc;
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
         solve();

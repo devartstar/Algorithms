@@ -64,21 +64,13 @@ const ll INF = 1e9;
 
 
 void solve() {
-   ll n;
-   cin>>n;
-   bool found = false;
-   f0(i,n){
-       int temp = (n - i*2020);
-       if(temp<0){
-           break;
-       }
-       if(temp%2021==0){
-           found = true;
-           break;
-       }
-   }
-   if(found)    cout<<"YES"<<endl;
-   else         cout<<"NO"<<endl;
+    ll a,b,k;
+    cin>>a>>b>>k;
+    ll ans = (a-b)*(k/2);
+    if(k%2==1){
+        ans += a;
+    } 
+    cout<<ans<<endl;
 }
 
 int main() {

@@ -2,11 +2,11 @@
     -------------------------------------
     |									|
     |	Author - Devjit Choudhury		|
-    |	Date   - ___________________ 	|	
+    |	Date   - 2021-07-26 21:42:04 	|	
     |    	                            |
     -------------------------------------
 
-    Link - 
+    Link - https://codeforces.com/problemset/problem/1147/A
 */
 
 #include <bits/stdc++.h>
@@ -62,23 +62,37 @@ const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
+map<ll,ll> m;
 
 void solve() {
-   ll n;
-   cin>>n;
-   bool found = false;
-   f0(i,n){
-       int temp = (n - i*2020);
-       if(temp<0){
-           break;
-       }
-       if(temp%2021==0){
-           found = true;
-           break;
-       }
-   }
-   if(found)    cout<<"YES"<<endl;
-   else         cout<<"NO"<<endl;
+    ll n,k;
+    cin>>n>>k;
+    vi v(k+1);
+    ll tot = (n-2)*3+4;
+    set<ll> st;
+    f1(i,k){
+        ll x;
+        cin>>x;
+        st.insert(x);
+        v[i]=x;
+        m[x] = i;
+    } 
+    set<pll> s;
+    fll1(i,k){
+        debug(s);
+        if(v[i]==1){
+            if(m[v[i]+1]>i) s.insert({v[i],v[i]+1});
+            continue;
+        }
+        if(v[i]==n){
+            if(m[v[i]-1]>i) s.insert({v[i],v[i]-1});
+            continue;
+        }
+        if(m[v[i]-1]>i) s.insert({v[i],v[i]+1});
+        if(m[v[i]+1]>i) s.insert({v[i],v[i]-1});
+        
+    }
+    cout<<tot-((ll)s.size()+(ll)st.size())<<endl;
 }
 
 int main() {
@@ -90,7 +104,7 @@ int main() {
       freopen("error.txt", "w", stderr);
     #endif
     int tc = 1;
-    cin >> tc;
+    //cin >> tc;
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
         solve();

@@ -64,21 +64,47 @@ const ll INF = 1e9;
 
 
 void solve() {
-   ll n;
-   cin>>n;
-   bool found = false;
-   f0(i,n){
-       int temp = (n - i*2020);
-       if(temp<0){
-           break;
-       }
-       if(temp%2021==0){
-           found = true;
-           break;
-       }
-   }
-   if(found)    cout<<"YES"<<endl;
-   else         cout<<"NO"<<endl;
+    int n,m;
+    cin>>n>>m;
+    char v[n][m];
+    f0(i,n){
+        string s;
+        cin>>s;
+        f0(j,m){
+            v[i][j] = s[j];
+        }
+    }
+    char arr[n][m];
+    f0(i,n){
+        f0(j,m){
+            arr[i][j] = '.';
+        }
+    } 
+    f0(i,n){
+        f0(j,m){
+            if(i-1<0 || i+1>=n || j-1<0 || j+1>=m)  continue;
+            if(v[i-1][j]=='#' && v[i+1][j]=='#' && v[i][j-1] == '#' && v[i][j+1] == '#' && v[i-1][j-1] == '#' && v[i+1][j-1] == '#' && v[i-1][j+1] == '#' && v[i+1][j+1] == '#'){
+                arr[i-1][j] = arr[i+1][j] = arr[i][j-1] = arr[i][j+1] = arr[i-1][j-1] = arr[i+1][j-1] = arr[i-1][j+1] = arr[i+1][j+1] = '#';
+            }
+        }
+    }
+    // f0(i,n){
+    //     f0(j,m){
+    //         cout<<arr[i][j]<<" ";
+    //     }
+    //     cout<<endl;
+    // } 
+    // now check 
+    f0(i,n){
+        f0(j,m){
+            if(v[i][j] != arr[i][j]){
+                cout<<"NO"<<endl;
+                return;
+            }
+        }
+    }
+    cout<<"YES"<<endl;
+    return;
 }
 
 int main() {
@@ -90,7 +116,7 @@ int main() {
       freopen("error.txt", "w", stderr);
     #endif
     int tc = 1;
-    cin >> tc;
+    //cin >> tc;
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
         solve();

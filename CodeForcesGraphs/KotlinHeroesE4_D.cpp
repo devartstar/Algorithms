@@ -2,11 +2,11 @@
     -------------------------------------
     |									|
     |	Author - Devjit Choudhury		|
-    |	Date   - ___________________ 	|	
+    |	Date   - 2021-07-26 14:18:05 	|	
     |    	                            |
     -------------------------------------
 
-    Link - 
+    Link - https://codeforces.com/problemset/problem/1346/D
 */
 
 #include <bits/stdc++.h>
@@ -62,23 +62,52 @@ const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
+vi v[200005];
+vi arr(200005);
+vi visited(200005);
+map<pii,int> val;
+
+void dfs(int node, int parent){
+    arr[node] = max(arr[node], val[mp(node,parent)]);
+    arr[parent] = max(arr[parent], val[mp(node,parent)]);
+    visited[node] = 1;
+    for(int child : v[node]){
+        if(!visited[child])
+            dfs(child, node);
+    }
+}
 
 void solve() {
-   ll n;
-   cin>>n;
-   bool found = false;
-   f0(i,n){
-       int temp = (n - i*2020);
-       if(temp<0){
-           break;
-       }
-       if(temp%2021==0){
-           found = true;
-           break;
-       }
-   }
-   if(found)    cout<<"YES"<<endl;
-   else         cout<<"NO"<<endl;
+    int n,m;
+    cin>>n>>m;
+    f0(i,m){
+        int a,b,w;
+        cin>>a>>b>>w;
+        v[a].pb(b);
+        v[b].pb(a);
+        val[mp(a,b)] = w;
+        val[mp(b,a)] = w;
+    }    
+    for(int k=1;k<=n;k++){
+        debug(v[k]);
+    }
+    dfs(1,-1);
+
+    // f1(i,n)   cout<<arr[i]<<" ";
+    // cout<<endl;
+
+    // check for validity
+    f1(i,n){
+        for(int x : v[i]){
+            if(val[mp(i,x)] != min(arr[i], arr[x])){
+                cout<<"NO"<<endl;
+                return;
+            }
+        }
+    }
+    cout<<"YES"<<endl;
+    f1(i,n) cout<<arr[i]<<" ";
+    cout<<endl;
 }
 
 int main() {
@@ -93,6 +122,12 @@ int main() {
     cin >> tc;
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
+        // clear the previously assignes global variables
+        f0(i,MAX_N){
+            v[i].clear();
+            arr[i] = 0;
+            visited[i] = 0;
+        }
         solve();
     }
 }

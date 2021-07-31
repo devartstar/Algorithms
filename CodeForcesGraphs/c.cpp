@@ -64,21 +64,65 @@ const ll INF = 1e9;
 
 
 void solve() {
-   ll n;
-   cin>>n;
-   bool found = false;
-   f0(i,n){
-       int temp = (n - i*2020);
-       if(temp<0){
-           break;
-       }
-       if(temp%2021==0){
-           found = true;
-           break;
-       }
-   }
-   if(found)    cout<<"YES"<<endl;
-   else         cout<<"NO"<<endl;
+    int n,m;
+    cin>>n>>m;
+    if(n>m){
+        cout<<0<<endl;
+        return;
+    } 
+    string nbin = "";
+    int temp = n;
+    while(temp!=0){
+        char ch = '0'+(temp%2);
+        debug(ch);
+        nbin = nbin + ch;
+        temp/=2;
+    }
+    while(nbin.length()<40){
+        nbin += '0';
+    }
+    reverse(all(nbin));
+    string nbin1 = nbin;
+
+    vi pos;
+    f0(i,(int)nbin.length()){
+        if(nbin[i]=='0')    pos.pb(i);
+    }
+    reverse(all(pos));
+    debug(pos);
+    debug(nbin);
+    int a =0, b=-1;
+    f0(i,(int)pos.size()){
+        string s = nbin1;
+        string s1 = nbin1;
+        s[pos[i]] = '1';
+        int val = stoi(s,0,2);
+        debug(val);
+        if((val^stoi(nbin,0,2))>m){
+            b = val;
+            if(i>0){
+                s1[pos[i-1]] = '1';
+            } 
+            a = stoi(s1,0,2);
+            break;
+        }
+    }
+    debug(a);
+    debug(b);
+    if(b==-1){       
+        int k=stoi(nbin,0,2);
+        while(k^n<=m){
+            k++;
+        }
+        cout<<k<<endl;
+    }else{
+        for(int i=a;i<=b;i++){
+            if((i^n)>m){
+                cout<<i<<endl;
+                return;
+            }
+        }
+    }
 }
 
 int main() {
@@ -93,6 +137,7 @@ int main() {
     cin >> tc;
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
+        debug(t);
         solve();
     }
 }

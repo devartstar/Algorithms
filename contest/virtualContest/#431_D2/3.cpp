@@ -62,23 +62,31 @@ const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
+int n, i, j, t, last, dd[200];
 
 void solve() {
-   ll n;
-   cin>>n;
-   bool found = false;
-   f0(i,n){
-       int temp = (n - i*2020);
-       if(temp<0){
-           break;
-       }
-       if(temp%2021==0){
-           found = true;
-           break;
-       }
-   }
-   if(found)    cout<<"YES"<<endl;
-   else         cout<<"NO"<<endl;
+    cin>>n;
+    if(n==0){
+        cout<<"a"<<endl;
+        return;
+    }
+    for(i = int('a'); i <= int('z'); ++i) {
+		if(n <= 0) break;
+		for(j = 1; j <= n + 10; ++j) {
+			t = j * (j + 1) / 2;
+			if(t > n) {
+				last = j - 1;
+				break;
+			}
+		}
+		t = last * (last + 1) / 2;
+		n -= t;
+		dd[i] = last;
+	}
+	for(i = int('a'); i <= int('z'); ++i) {
+		for(j = 1; j <= dd[i]; ++j) cout << char(i);
+		if(dd[i]) cout << char(i);
+	}
 }
 
 int main() {
@@ -90,7 +98,7 @@ int main() {
       freopen("error.txt", "w", stderr);
     #endif
     int tc = 1;
-    cin >> tc;
+    //cin >> tc;
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
         solve();

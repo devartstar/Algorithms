@@ -64,21 +64,42 @@ const ll INF = 1e9;
 
 
 void solve() {
-   ll n;
-   cin>>n;
-   bool found = false;
-   f0(i,n){
-       int temp = (n - i*2020);
-       if(temp<0){
-           break;
-       }
-       if(temp%2021==0){
-           found = true;
-           break;
-       }
-   }
-   if(found)    cout<<"YES"<<endl;
-   else         cout<<"NO"<<endl;
+    int W,H;
+    cin>>W>>H;
+    int x1,y1,x2,y2;
+    cin>>x1>>y1>>x2>>y2;
+    int w,h;
+    cin>>w>>h;
+
+        debug(w+(x2-x1));
+        debug(h+(y2-y1));
+    if(w+(x2-x1)>W && h+(y2-y1)>H){
+        printf("-1\n");
+        return;
+    }
+
+    ll ans = INF;
+    ll left = max(w-(W-x2),0);
+    if(x1-left>=0){
+        ans = min(ans,left);
+    }
+
+    ll right = max(w-x1, 0);
+    if(x2+right<=W){
+        ans = min(ans, right);
+    }
+
+    ll top = max(h-y1, 0);
+    if(y2+top<=H){
+        ans = min(ans, top);
+    }
+
+    ll down = max(h-(H-y2), 0);
+    if(y1-down>=0){
+        ans = min(ans, down);
+    }
+    double fin = ans*1.00000000;
+    printf("%.8f\n",fin);
 }
 
 int main() {

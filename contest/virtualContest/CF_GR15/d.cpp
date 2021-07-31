@@ -2,11 +2,11 @@
     -------------------------------------
     |									|
     |	Author - Devjit Choudhury		|
-    |	Date   - ___________________ 	|	
+    |	Date   - 2021-07-28 20:00:40 	|	
     |    	                            |
     -------------------------------------
 
-    Link - 
+    Link - https://codeforces.com/contest/1552/problem/D
 */
 
 #include <bits/stdc++.h>
@@ -64,21 +64,29 @@ const ll INF = 1e9;
 
 
 void solve() {
-   ll n;
-   cin>>n;
-   bool found = false;
-   f0(i,n){
-       int temp = (n - i*2020);
-       if(temp<0){
-           break;
-       }
-       if(temp%2021==0){
-           found = true;
-           break;
-       }
-   }
-   if(found)    cout<<"YES"<<endl;
-   else         cout<<"NO"<<endl;
+    int n;
+    cin>>n; 
+    vi v(n+1);
+    int tot = 1;
+    f1(i,n) tot = tot*3, cin>>v[i];
+
+    f1(k,tot-1){
+        int kp = k;
+        int sum = 0;
+        f1(i,n){
+            int s = kp%3;
+            kp = kp / 3;
+            if(s==2){
+                s = -1;
+            }
+            sum += s*v[i];
+        }
+        if(sum==0){
+            cout<<"YES"<<endl;
+            return;
+        }
+    }
+    cout<<"NO"<<endl;
 }
 
 int main() {

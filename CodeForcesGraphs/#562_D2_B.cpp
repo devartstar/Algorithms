@@ -2,11 +2,11 @@
     -------------------------------------
     |									|
     |	Author - Devjit Choudhury		|
-    |	Date   - ___________________ 	|	
+    |	Date   - 2021-07-26 18:58:07 	|	
     |    	                            |
     -------------------------------------
 
-    Link - 
+    Link - https://codeforces.com/problemset/problem/1169/B
 */
 
 #include <bits/stdc++.h>
@@ -62,23 +62,47 @@ const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
+int freq1[300001];
+int freq2[300001];
 
 void solve() {
-   ll n;
-   cin>>n;
-   bool found = false;
-   f0(i,n){
-       int temp = (n - i*2020);
-       if(temp<0){
-           break;
-       }
-       if(temp%2021==0){
-           found = true;
-           break;
-       }
-   }
-   if(found)    cout<<"YES"<<endl;
-   else         cout<<"NO"<<endl;
+    int n,m;
+    cin>>n>>m;
+    int a,b;
+    cin>>a>>b;
+    m--;
+
+    int c1,c2;  c1=c2=0;
+    
+    while(m--){
+        int x,y;
+        cin>>x>>y;
+        if(x!=a && y!=a){
+            c1++;
+            freq1[x]++;
+            freq1[y]++;
+        }
+        if(x!=b && y!=b){
+            c2++;
+            freq2[x]++;
+            freq2[y]++;
+        }
+    }
+    
+    debug(c1);
+    debug(c2);
+    if(c1==0 || c2==0){
+        cout<<"YES"<<endl;
+        return;
+    }
+    f1(i,n){
+        if(freq1[i]==c1 || freq2[i]==c2){
+            cout<<"YES"<<endl;
+            return;
+        }
+    }
+    cout<<"NO"<<endl;
+    return;
 }
 
 int main() {
@@ -90,7 +114,7 @@ int main() {
       freopen("error.txt", "w", stderr);
     #endif
     int tc = 1;
-    cin >> tc;
+    //cin >> tc;
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
         solve();

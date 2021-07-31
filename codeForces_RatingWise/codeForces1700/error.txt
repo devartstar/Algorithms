@@ -1,0 +1,14 @@
+ans 98
+n 50
+ans 148
+n 25
+ans 172
+n 13
+ans 184
+n 7
+ans 190
+n 4
+ans 194
+n 2
+ans 196
+n 1

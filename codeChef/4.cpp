@@ -64,21 +64,63 @@ const ll INF = 1e9;
 
 
 void solve() {
-   ll n;
-   cin>>n;
-   bool found = false;
-   f0(i,n){
-       int temp = (n - i*2020);
-       if(temp<0){
-           break;
-       }
-       if(temp%2021==0){
-           found = true;
-           break;
-       }
-   }
-   if(found)    cout<<"YES"<<endl;
-   else         cout<<"NO"<<endl;
+    int n;
+    cin>>n;
+    vi a(n), b(n);
+    f0(i,n) cin>>a[i];
+    f0(i,n) cin>>b[i];
+    vi c(n);
+    ll min = n+1;
+    f0(i,n){
+        c[i] = (a[0]+b[i])%n;
+        if(c[i]<min){
+            min = c[i];
+        }
+    }
+    vi pos;
+    f0(i,n){
+        if(c[i]==min)   pos.pb(i);
+    }
+    vi res[(int)pos.size()];
+    for(int i =0; i<(int)pos.size();i++){
+        int start = pos[i];
+        int k = 0;
+        while(k<n){
+            int pp = (start + k)%n;
+            res[i].pb((a[k]+b[pp])%n);
+            k++;
+        }
+    }
+    f0(i,(int)pos.size()){
+        debug(res[i]);
+    }
+    if((int)pos.size()==1){
+        f0(i,n) cout<<res[0][i]<<" ";
+        cout<<endl;
+        return;
+    }
+    int dd;
+    f0(i,n){
+        bool ok = false;
+        int mn = res[0][i];
+        dd = 0;
+        f0(j,(int)pos.size()){
+            if(res[j][i]<mn){
+                mn = res[j][i];
+                ok = true;
+                dd = j;
+            }
+            if(res[i][j]>mn){
+                res[i].clear();
+                res[i].insert(res[i].end(),n, n+1);
+            }
+        }
+        if(ok == true){
+            break;
+        }
+    }
+    f0(i,n) cout<<res[dd][i]<<" ";
+    cout<<endl;
 }
 
 int main() {

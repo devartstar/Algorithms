@@ -2,11 +2,11 @@
     -------------------------------------
     |									|
     |	Author - Devjit Choudhury		|
-    |	Date   - ___________________ 	|	
+    |	Date   - 2021-07-29 19:46:15 	|	
     |    	                            |
     -------------------------------------
 
-    Link - 
+    Link - https://codeforces.com/problemset/problem/1056/D
 */
 
 #include <bits/stdc++.h>
@@ -62,23 +62,59 @@ const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
+vi v[MAX_N];
+vi visited(MAX_N);
+vi c(MAX_N);
+vi ans(MAX_N);
+
+int dfs(int node){
+    visited[node] = 1;
+    int k = 0;
+    for(int child : v[node])  {
+        if(!visited[child]){
+            k++;
+            c[node] += dfs(child);
+        }
+    }
+    if(k==0)    c[node] = 1;
+    return c[node];
+}
+
+void bfs(int src){
+    visited[src] = 1;
+    queue<int> q;
+    q.push(src);
+    while(!q.empty()){
+        int node = q.front();
+        q.pop();
+        for(int child : v[node]){
+            if(!visited[child]){
+                q.push(child);
+                ans[node] = max(ans[node], c[child]);
+            }
+        }
+    }
+}
 
 void solve() {
-   ll n;
-   cin>>n;
-   bool found = false;
-   f0(i,n){
-       int temp = (n - i*2020);
-       if(temp<0){
-           break;
-       }
-       if(temp%2021==0){
-           found = true;
-           break;
-       }
-   }
-   if(found)    cout<<"YES"<<endl;
-   else         cout<<"NO"<<endl;
+    int n;
+    cin>>n;
+    f(i,2,n){
+        int x;  cin>>x;
+        v[i].pb(x);
+        v[x].pb(i);
+    }
+    //f1(i,n) if((int)v[i].size()==1) c[i]=1;
+    dfs(1);
+    debug(c);
+    sort(c.begin()+1, c.begin()+n+1);
+    f1(i,n) cout<<c[i]<<" ";
+    cout<<endl;
+    // f1(i,n) visited[i]=0;
+    // bfs(1);
+    // debug(ans);
+    // f1(i,n) cout<<ans[i]<<" ";
+    // cout<<endl;
 }
 
 int main() {
@@ -90,7 +126,7 @@ int main() {
       freopen("error.txt", "w", stderr);
     #endif
     int tc = 1;
-    cin >> tc;
+    //cin >> tc;
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
         solve();

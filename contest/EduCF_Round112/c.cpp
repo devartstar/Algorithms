@@ -64,21 +64,45 @@ const ll INF = 1e9;
 
 
 void solve() {
-   ll n;
-   cin>>n;
-   bool found = false;
-   f0(i,n){
-       int temp = (n - i*2020);
-       if(temp<0){
-           break;
-       }
-       if(temp%2021==0){
-           found = true;
-           break;
-       }
-   }
-   if(found)    cout<<"YES"<<endl;
-   else         cout<<"NO"<<endl;
+    ll m;
+    cin>>m; 
+    ll arr[3][m+1];
+    ll sum[3][m+1];
+    f0(i,3){
+        f0(j,m+1){
+            arr[i][j]=0;
+            sum[i][j]=0;
+        }
+    }
+    f1(i,2){
+        f1(j,m){
+            cin>>arr[i][j];
+            sum[i][j] = sum[i][j-1] + arr[i][j];
+        }
+    }
+    // //---
+    // f1(i,2){
+    //     f1(j,m){
+    //         cout<<sum[i][j]<<" ";
+    //     }
+    //     cout<<endl;
+    // }
+    // //---
+    ll ans = -1*INF;
+    ll pos = -1;
+    // alicew moves
+    vll finans;
+    f1(j,m){
+        int temp = max(sum[1][m]-sum[1][j], sum[2][j-1]);
+        finans.pb(temp);
+        // debug(j);
+        // debug(temp);
+        // if(temp>ans){
+        //     ans = temp;
+        //     pos = j;
+        // }
+    }
+    cout<<*min_element(all(finans))<<endl;
 }
 
 int main() {

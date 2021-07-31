@@ -62,23 +62,104 @@ const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
+ll n;
+vector<pll> v(10001);
+
+bool check(){
+    vector<pll> v1;
+    pll a1, a2, x, y;
+    a1 = v[1];
+    a2 = v[2];
+    x=a1, y=a2;
+    fll(i,3,n){
+        if((a2.ss-a1.ss)*(v[i].ff-a1.ff) != (v[i].ss-a1.ss)*(a2.ff-a1.ff)){
+            v1.pb(v[i]);
+        }
+    }
+    debug(v1);
+    if((ll)v1.size()==0){
+        debug("lol fasle 1");
+        return false;
+    }
+    if((ll)v1.size()==1){
+        debug("lol true 1");
+        return true;
+    }
+
+    a1 = v1[0];
+    a2 = v1[1];
+    debug(x);
+    debug(y);
+    debug(a1);
+    debug(a2);
+    if((y.ss-x.ss)*(a2.ff-a1.ff) != (a2.ss-a1.ss)*(y.ff-x.ff)){
+        debug("lol false lol");
+        return false;
+    }
+    f(i,2,(ll)v1.size()-1){
+        if((a2.ss-a1.ss)*(v1[i].ff-a1.ff) != (v1[i].ss-a1.ss)*(a2.ff-a1.ff)){
+            // debug("lol false 2");
+            return false;
+        }
+    }
+    debug("lol true 2");
+    return true;
+}
 
 void solve() {
-   ll n;
-   cin>>n;
-   bool found = false;
-   f0(i,n){
-       int temp = (n - i*2020);
-       if(temp<0){
-           break;
-       }
-       if(temp%2021==0){
-           found = true;
-           break;
-       }
-   }
-   if(found)    cout<<"YES"<<endl;
-   else         cout<<"NO"<<endl;
+    cin>>n;
+    ll x;
+    fll1(i,n) cin>>x, v[i] = mp(i,x);
+    // debug(v);
+    if(n==3){
+        ll k = v[1].ff * (v[2].ss - v[3].ss) + v[2].ff * (v[3].ss - v[1].ss) + v[3].ff * (v[1].ss - v[2].ss);
+        // debug(k);
+        if(k==0){
+            cout<<"NO"<<endl;
+        }else{
+            cout<<"YES"<<endl;
+        }
+        return;
+    }
+
+
+    ll ans1 = false, ans2 = false;
+
+    for(ll i=2;i<=n;i++){
+        debug(i);
+        swap(v[2],v[i]);
+        if(check()){
+            ans1 = true;
+            break;
+        }else{
+            swap(v[2],v[i]);
+        }
+    }
+    if(ans1){
+        cout<<"YES"<<endl;
+        return;
+    }
+
+    swap(v[1],v[2]);
+    
+    for(ll i=2;i<=n;i++){
+        debug("next");
+        debug(i);
+        swap(v[2],v[i]);
+        if(check()){
+            ans2 = true;
+            break;
+        }else{
+            swap(v[2],v[i]);
+        }
+    }
+    if(ans2){
+        cout<<"YES"<<endl;
+        return;
+    }else{
+        cout<<"NO"<<endl;
+        return;
+    }
 }
 
 int main() {
@@ -90,7 +171,7 @@ int main() {
       freopen("error.txt", "w", stderr);
     #endif
     int tc = 1;
-    cin >> tc;
+    //cin >> tc;
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
         solve();

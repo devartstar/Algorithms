@@ -1,0 +1,12 @@
+val [ {43,1} ]
+value [ 43 ]
+sz [ 1 ]
+left 43
+right 43
+left 44
+val [ {13,2} {15,3} ]
+value [ 13 15 ]
+sz [ 2 5 ]
+left 13
+right 15
+left 14

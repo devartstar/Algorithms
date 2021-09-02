@@ -1,9 +1,7 @@
-4
-ababa
-ba
-ababa
-bb
-aaa
-aaaa
-aababa
-ababa
+3
+6 3
+0 0 2 5 1 1
+2 3
+0 2
+3 2
+3 0 2

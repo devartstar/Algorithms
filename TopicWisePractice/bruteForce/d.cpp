@@ -6,7 +6,8 @@
     |    	                            |
     -------------------------------------
 
-    Link - https://codeforces.com/problemset/problem/1542/C
+    Link - given a chocolate of n*m grid
+    cut it into k squares
 */
 
 #include <bits/stdc++.h>
@@ -33,6 +34,7 @@ using namespace std;
 #define ff first
 #define ss second
 #define mp make_pair
+#define endl '\n'
 
 #ifndef ONLINE_JUDGE
 #define debug(x) cerr << #x <<" "; _print(x); cerr << endl;
@@ -63,20 +65,33 @@ const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
-ll lcm(ll x, ll y){
-    return (x/__gcd(x,y))*y;
+int dp[1001][1001][1001];
+
+ll rec(ll i, ll j, ll needed){
+    if(dp[i][j][needed]!=-1)
+        return dp[i][j][needed];
+    if(needed==0)   return 0;
+    if(i*j<needed)  return 1e15;    // not possible
+    if(i==j && needed==1)   return 0;
+    ll ans = 1e15;
+    for(int r=1;r<i;r++){
+        for(int k=0;k<=needed;k++){
+            ans = min(ans, rec(r,j,k)+rec(i-r,j,needed-k)+j*j);
+        }
+    } 
+    for(int c=1;c<i;c++){
+        for(int k=0;k<=needed;k++){
+            ans = min(ans, rec(i,c,k)+rec(i,j-c,needed-k)+j*j);
+        }
+    } 
+    return dp[i][j][needed] = ans;
 }
 
 void solve() {
-    ll n;
-    cin>>n;
-    ll k = 1, ans = 0;    
-    for(int i=1; i<=n; i++){
-        k = lcm(k, i);
-        if(k>n) break;
-        ans = (ans + n/k)%MOD;
-    }
-    cout<<(ans+n)%MOD<<endl;
+    memset(dp, -1, sizeof(dp));
+    ll n, m, k;
+    cin>>n>>m>>k;
+    cout<<rec(n,m,k)<<endl;
 }
 
 int main() {
@@ -88,7 +103,7 @@ int main() {
       freopen("error.txt", "w", stderr);
     #endif
     int tc = 1;
-    cin >> tc;
+    //cin >> tc;
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
         solve();

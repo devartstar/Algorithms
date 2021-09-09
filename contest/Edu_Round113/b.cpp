@@ -6,7 +6,7 @@
     |    	                            |
     -------------------------------------
 
-    Link - https://codeforces.com/problemset/problem/1542/C
+    Link - 
 */
 
 #include <bits/stdc++.h>
@@ -33,6 +33,7 @@ using namespace std;
 #define ff first
 #define ss second
 #define mp make_pair
+#define endl '\n'
 
 #ifndef ONLINE_JUDGE
 #define debug(x) cerr << #x <<" "; _print(x); cerr << endl;
@@ -63,20 +64,78 @@ const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
-ll lcm(ll x, ll y){
-    return (x/__gcd(x,y))*y;
-}
 
 void solve() {
-    ll n;
+    int n;
     cin>>n;
-    ll k = 1, ans = 0;    
-    for(int i=1; i<=n; i++){
-        k = lcm(k, i);
-        if(k>n) break;
-        ans = (ans + n/k)%MOD;
+    string s;
+    cin>>s;
+
+    vi v;
+    f0(i,n){
+        if(s[i]=='2')   v.pb(i);
     }
-    cout<<(ans+n)%MOD<<endl;
+    char arr[n][n];
+    f0(i,n){
+        f0(j,n){
+            arr[i][j] = '=';
+        }
+    }
+    
+    int len = (int)v.size();
+    if(len==0){
+        cout<<"YES"<<endl;
+        f0(i,n){
+            f0(j,n){
+                if(i==j){
+                    cout<<"X";
+                    continue;
+                }
+                cout<<arr[i][j];
+            }
+            cout<<endl;
+        }
+        return;
+    }
+    for(int i=0; i<len-1; i++){
+        arr[v[i]][v[i+1]] = '+';
+        arr[v[i+1]][v[i]] = '-';
+    }
+    arr[v[len-1]][v[0]] = '+';
+    arr[v[0]][v[len-1]] = '-';
+
+    f0(i,n){
+        char ch = s[i];
+        if(ch=='1'){
+            f0(j,n){
+                if(arr[i][j]=='-'){
+                    cout<<"NO"<<endl;
+                    return;
+                }
+            }
+        }else{
+            bool ok = false;
+            f0(j,n){
+                if(arr[i][j]=='+')
+                    ok = true;
+            }
+            if(!ok){
+                cout<<"NO"<<endl;
+                return;
+            }
+        }
+    }
+    cout<<"YES"<<endl;
+    f0(i,n){
+        f0(j,n){
+            if(i==j){
+                cout<<"X";
+                continue;
+            }
+            cout<<arr[i][j];
+        }
+        cout<<endl;
+    }
 }
 
 int main() {

@@ -6,7 +6,7 @@
     |    	                            |
     -------------------------------------
 
-    Link - https://codeforces.com/problemset/problem/1542/C
+    Link - https://codeforces.com/problemset/problem/1569/D
 */
 
 #include <bits/stdc++.h>
@@ -22,6 +22,7 @@ using namespace std;
 #define pll pair<long, long>
 #define vll vector<long long>
 #define vpii vector<pair<int,int>>
+#define vpll vector<pair<ll,ll>>
 #define all(v) v.begin(),v.end()
 #define f0(i, n) for (int i = 0; i < n; i++) // 0 based indexing
 #define f1(i, n) for (int i = 1; i <= n; i++) // 1 based indexing
@@ -33,6 +34,7 @@ using namespace std;
 #define ff first
 #define ss second
 #define mp make_pair
+#define endl '\n'
 
 #ifndef ONLINE_JUDGE
 #define debug(x) cerr << #x <<" "; _print(x); cerr << endl;
@@ -63,20 +65,95 @@ const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
-ll lcm(ll x, ll y){
-    return (x/__gcd(x,y))*y;
-}
 
 void solve() {
-    ll n;
-    cin>>n;
-    ll k = 1, ans = 0;    
-    for(int i=1; i<=n; i++){
-        k = lcm(k, i);
-        if(k>n) break;
-        ans = (ans + n/k)%MOD;
+    ll n, m, k;
+    cin>>n>>m>>k;
+    vll v_rows(n);
+    vll v_cols(m);
+
+    fll0(i,n){
+        cin>>v_rows[i];
     }
-    cout<<(ans+n)%MOD<<endl;
+    fll0(i,m){
+        cin>>v_cols[i];
+    }
+
+    sort(all(v_rows));
+    sort(all(v_cols));
+
+    vpll rc;
+    vpll cr;
+    fll0(i,k){
+        int x,y;
+        cin>>x>>y;
+        rc.pb({x,y});
+        cr.pb({y,x});
+    }
+    sort(all(rc));
+    sort(all(cr));
+
+
+    ll j = 0;
+    ll ans = 0;
+    for(ll x : v_rows){
+        vpll temp;
+        for(;j<k;j++){
+            if(rc[j].ff==x){
+                continue;
+            }
+            if(rc[j].ff > x){
+                break;
+            }
+            temp.pb({rc[j].ss, rc[j].ff});
+        }
+        sort(all(temp));
+
+        ll cnt =(int) temp.size();
+        ans += (cnt*(cnt-1))/2;
+
+        ll prev = -1, k=1;
+        for(pll p : temp){
+            if(p.ff==prev){
+                k++;
+            }else{
+                prev = p.ff;
+                ans = ans - (k*(k-1))/2;
+                k=1;
+            }
+        }
+        ans = ans - (k*(k-1))/2;
+    }
+
+    j = 0;
+    for(ll x : v_cols){
+        vpll temp;
+        for(;j<k;j++){
+            if(cr[j].ff==x){
+                continue;
+            }
+            if(cr[j].ff > x){
+                break;
+            }
+            temp.pb({cr[j].ss, cr[j].ff});
+        }
+        sort(all(temp));
+        ll cnt =(ll) temp.size();
+        ans += (cnt*(cnt-1))/2;
+        ll prev = -1, k=1;
+        for(pll p : temp){
+            if(p.ff==prev){
+                k++;
+            }else{
+                prev = p.ff;
+                ans = ans - (k*(k-1))/2;
+                k=1;
+            }
+        }
+        ans = ans - (k*(k-1))/2;
+    }
+
+    cout<<ans<<endl;
 }
 
 int main() {

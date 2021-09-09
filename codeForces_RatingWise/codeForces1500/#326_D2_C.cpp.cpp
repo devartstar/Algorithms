@@ -6,7 +6,7 @@
     |    	                            |
     -------------------------------------
 
-    Link - https://codeforces.com/problemset/problem/1542/C
+    Link - https://codeforces.com/contest/588/problem/C
 */
 
 #include <bits/stdc++.h>
@@ -59,24 +59,23 @@ template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 
-const int MAX_N = 1e5 + 1;
+const int MAX_N = 1e7 + 5;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
-ll lcm(ll x, ll y){
-    return (x/__gcd(x,y))*y;
-}
 
 void solve() {
-    ll n;
+    int n;
     cin>>n;
-    ll k = 1, ans = 0;    
-    for(int i=1; i<=n; i++){
-        k = lcm(k, i);
-        if(k>n) break;
-        ans = (ans + n/k)%MOD;
+    vi v(n);
+    vi freq(MAX_N+1,0);
+    f0(i,n) cin>>v[i], freq[v[i]]++;
+    ll ans = 0;
+    f0(i,MAX_N){
+        ans += freq[i]%2;
+        freq[i+1] += freq[i]/2;
     }
-    cout<<(ans+n)%MOD<<endl;
+    cout<<ans<<endl;
 }
 
 int main() {
@@ -88,7 +87,7 @@ int main() {
       freopen("error.txt", "w", stderr);
     #endif
     int tc = 1;
-    cin >> tc;
+    //cin >> tc;
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
         solve();

@@ -6,7 +6,7 @@
     |    	                            |
     -------------------------------------
 
-    Link - https://codeforces.com/problemset/problem/1542/C
+    Link - https://codeforces.com/contest/1529/problem/B
 */
 
 #include <bits/stdc++.h>
@@ -33,6 +33,7 @@ using namespace std;
 #define ff first
 #define ss second
 #define mp make_pair
+#define endl '\n'
 
 #ifndef ONLINE_JUDGE
 #define debug(x) cerr << #x <<" "; _print(x); cerr << endl;
@@ -61,22 +62,33 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
 
 const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
-const ll INF = 1e9;
+const ll INF = 1e18 + 10;
 
-ll lcm(ll x, ll y){
-    return (x/__gcd(x,y))*y;
-}
 
 void solve() {
     ll n;
     cin>>n;
-    ll k = 1, ans = 0;    
-    for(int i=1; i<=n; i++){
-        k = lcm(k, i);
-        if(k>n) break;
-        ans = (ans + n/k)%MOD;
+    vll v(n);
+    ll ans = 0;
+    fll0(i,n){
+        cin>>v[i];
+        if(v[i]<=0)
+            ans++;
+    } 
+    sort(all(v));
+    ll mn = INF;
+    fll0(i,n){
+        if(v[i]>0){
+            mn = min(mn, v[i]);
+        }
     }
-    cout<<(ans+n)%MOD<<endl;
+    bool ok = (mn<INF);
+    f(i,1,n-1){
+        if(v[i]<=0)
+            ok = ok&(v[i]-v[i-1]>=mn);
+    }
+    if(ok)  ans++;
+    cout<<ans<<endl;
 }
 
 int main() {

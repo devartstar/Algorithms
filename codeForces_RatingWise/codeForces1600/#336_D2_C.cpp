@@ -6,7 +6,7 @@
     |    	                            |
     -------------------------------------
 
-    Link - https://codeforces.com/problemset/problem/1542/C
+    Link - 
 */
 
 #include <bits/stdc++.h>
@@ -33,6 +33,7 @@ using namespace std;
 #define ff first
 #define ss second
 #define mp make_pair
+#define endl '\n'
 
 #ifndef ONLINE_JUDGE
 #define debug(x) cerr << #x <<" "; _print(x); cerr << endl;
@@ -63,20 +64,51 @@ const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
-ll lcm(ll x, ll y){
-    return (x/__gcd(x,y))*y;
-}
+/*
+    LOGIC :- MAKE A DP
+        DP[I] = Number of beacons that can be destroyed from selecting i
+        how to compute dp
 
+        Base case : 
+            dp[1] = 0;
+        Recursion :- 
+            dp[i] = f(dp[i-1]) = 
+                    dp[k-1] 
+                    + 
+                    no of beacons in between 
+                    (pos[i] && pos[i]-pow[i]) 
+
+        How to find k ?
+        use lower_bound(all(pos),pos[i]-pow[i]) - pos.begin() - 1
+        
+    
+*/
+map<int, int> power;
 void solve() {
     ll n;
     cin>>n;
-    ll k = 1, ans = 0;    
-    for(int i=1; i<=n; i++){
-        k = lcm(k, i);
-        if(k>n) break;
-        ans = (ans + n/k)%MOD;
+    vi pos(n);
+    int x;
+    f0(i,n){
+        cin>>pos[i];   // position
+        cin>>x;   // powerer-level
+        power[pos[i]] = x;
     }
-    cout<<(ans+n)%MOD<<endl;
+    sort(all(pos));
+    debug(pos);
+    vll dp(n);
+    dp[0]=0;
+    for(int i=1; i<n; i++){
+        int k = lower_bound(all(pos), max(pos[i]-power[pos[i]],0)) - pos.begin();
+        dp[i] = (k-1>=0?dp[k-1]:0) + (i-k);
+    }
+
+    debug(dp);
+    ll ans = INF;
+    for(int i=n-1; i>=0; i--){
+        ans = min(ans, dp[i]+(n-i-1));
+    }
+    cout<<ans<<endl;
 }
 
 int main() {
@@ -88,7 +120,7 @@ int main() {
       freopen("error.txt", "w", stderr);
     #endif
     int tc = 1;
-    cin >> tc;
+    //cin >> tc;
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
         solve();

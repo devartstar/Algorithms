@@ -6,7 +6,10 @@
     |    	                            |
     -------------------------------------
 
-    Link - https://codeforces.com/problemset/problem/1542/C
+    Link - 
+    Number of disting sets of 2 five digit numbers such that
+    abcde/fghij = N
+    where every digit is different and on dividig gives N
 */
 
 #include <bits/stdc++.h>
@@ -63,34 +66,58 @@ const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
-ll lcm(ll x, ll y){
-    return (x/__gcd(x,y))*y;
-}
 
 void solve() {
-    ll n;
-    cin>>n;
-    ll k = 1, ans = 0;    
-    for(int i=1; i<=n; i++){
-        k = lcm(k, i);
-        if(k>n) break;
-        ans = (ans + n/k)%MOD;
+	int x;
+	cin>>x;
+	ll c = 0;
+    vi v(10);
+	f0(i,10)	
+		v[i]=i;
+	do{
+		int n1=0,n2=0;
+		f0(i,5){
+			n1 = n1*10+v[i];
+			n2 = n2*10+v[i+5];
+		}
+		if(n1/n2==x){
+			c++;
+		}
+	}while(next_permutation(all(v)));
+	cout<<c<<endl;
+}
+
+void solve1(){
+    int x;
+    cin>>x;
+    int n1, n2;
+    int c=0;
+    for(int n2=1234; n2<=98765/x; n2++){
+        n1 = n2*x;
+        vb isPrersent(10, false);
+        int temp1 = n1, temp2 = n2;
+        while(temp1>0){
+            isPrersent[temp1%10] = true;
+            temp1/=10;
+        }
+        while(temp2>0){
+            isPrersent[temp2%10] = true;
+            temp2/=10;
+        }
+        f0(i,10)
+            if(isPrersent[i]==false && i!=0)
+                continue;
+        c++;
     }
-    cout<<(ans+n)%MOD<<endl;
+    cout<<c<<endl;
 }
 
 int main() {
-    ios_base::sync_with_stdio(0);
-    cin.tie(0); cout.tie(0);
-    #ifndef ONLINE_JUDGE
-      freopen("input.txt","r",stdin);
-      freopen("output.txt","w",stdout);
-      freopen("error.txt", "w", stderr);
-    #endif
     int tc = 1;
-    cin >> tc;
+    //cin >> tc;
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
         solve();
+        solve1();
     }
 }

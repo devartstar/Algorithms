@@ -6,7 +6,7 @@
     |    	                            |
     -------------------------------------
 
-    Link - https://codeforces.com/problemset/problem/1542/C
+    Link - 
 */
 
 #include <bits/stdc++.h>
@@ -33,6 +33,7 @@ using namespace std;
 #define ff first
 #define ss second
 #define mp make_pair
+#define endl '\n'
 
 #ifndef ONLINE_JUDGE
 #define debug(x) cerr << #x <<" "; _print(x); cerr << endl;
@@ -59,24 +60,80 @@ template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 
-const int MAX_N = 1e5 + 1;
-const ll MOD = 1e9 + 7;
+const int MAX_N = 2e5 + 5;
+const ll MOD = 998244353 ;
 const ll INF = 1e9;
 
-ll lcm(ll x, ll y){
-    return (x/__gcd(x,y))*y;
+ll pow(ll x,ll y,ll m){
+    int ans = 1;
+    int r = 1;
+    while(r<=y){
+        if(r&y){
+            ans = (1LL*ans*x)%m;
+        }
+        x = (1LL*x*x)%m;
+        r = r<<1;
+    }
+    return ans;
+}
+
+ll modInv(int n, int m){
+    return pow(n, m-2, m);
+}
+
+vll fact(MAX_N);
+vll invfact(MAX_N);
+void preCompute() {
+
+    fact[0] = 1;
+    for(int i=1; i<MAX_N; i++){
+        fact[i] = (1LL*i*fact[i-1])%MOD;
+    }
+
+    invfact[MAX_N-1] = modInv(fact[MAX_N-1], MOD);
+    for(int i=MAX_N-2; i>=0; i--){
+        invfact[i] = ((1LL*(i+1)*invfact[i+1])%MOD);
+    }
+}
+
+ll nCr(ll n, ll r){
+    if(n<r)
+        return 0;
+    ll temp = (fact[r]*fact[n-r]) % MOD;
+    ll ans = (fact[n] * modInv(temp, MOD)) % MOD;
+    return ans;
 }
 
 void solve() {
-    ll n;
+    int n;
     cin>>n;
-    ll k = 1, ans = 0;    
-    for(int i=1; i<=n; i++){
-        k = lcm(k, i);
-        if(k>n) break;
-        ans = (ans + n/k)%MOD;
+
+    vi v(n);
+    set<int, greater<int>> s;
+    f0(i,n){
+        cin>>v[i];
+        s.insert(v[i]);
     }
-    cout<<(ans+n)%MOD<<endl;
+    auto it = s.begin();
+    int x = *it;
+    int n1 = count(all(v), x);
+    if(n1>1 || (int)s.size()==1){
+        cout<<fact[n]<<endl;
+        return;
+    }
+    it++;
+    int y = *it;
+    int n2 = count(all(v), y);
+
+    if(x-y>1){
+        cout<<"0"<<endl;
+        return;
+    }
+
+    ll sub = nCr(n, n2+1);
+    sub = ((sub%MOD)*(fact[n2]%MOD)) % MOD;
+    sub = ((sub%MOD)*(fact[n-(n2+1)]%MOD)) % MOD;
+    cout<<(fact[n] + MOD - sub) %MOD<<endl;
 }
 
 int main() {
@@ -89,6 +146,7 @@ int main() {
     #endif
     int tc = 1;
     cin >> tc;
+    preCompute();
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
         solve();

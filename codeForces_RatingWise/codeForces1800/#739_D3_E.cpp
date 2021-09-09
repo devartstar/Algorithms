@@ -6,7 +6,7 @@
     |    	                            |
     -------------------------------------
 
-    Link - https://codeforces.com/problemset/problem/1542/C
+    Link - https://codeforces.com/problemset/problem/1560/E
 */
 
 #include <bits/stdc++.h>
@@ -33,6 +33,7 @@ using namespace std;
 #define ff first
 #define ss second
 #define mp make_pair
+#define endl '\n'
 
 #ifndef ONLINE_JUDGE
 #define debug(x) cerr << #x <<" "; _print(x); cerr << endl;
@@ -63,20 +64,57 @@ const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
-ll lcm(ll x, ll y){
-    return (x/__gcd(x,y))*y;
-}
 
 void solve() {
-    ll n;
-    cin>>n;
-    ll k = 1, ans = 0;    
-    for(int i=1; i<=n; i++){
-        k = lcm(k, i);
-        if(k>n) break;
-        ans = (ans + n/k)%MOD;
+    string s;
+    cin>>s;
+    vector<bool> isTaken(26,false);
+    string str;
+    map<char, int> cnt;
+    for(int i = s.length()-1; i>=0; i--){
+        if(isTaken[s[i]-'a']==false){
+            str += s[i];
+            isTaken[s[i]-'a'] = true;
+        }
+        cnt[s[i]]++;
     }
-    cout<<(ans+n)%MOD<<endl;
+
+    int n_total = (int)str.size();
+    vector<pair<char, int>> v;
+    auto it = str.begin();
+    int tot = 0;
+    while(n_total){
+        v.pb(mp(*it, cnt[*it]/n_total));
+        if(cnt[*it]%n_total != 0){
+            cout<<"-1"<<endl;
+            return;
+        }
+        tot += cnt[*it]/n_total;
+        n_total--;
+        it++;
+    }
+    string ans = s;
+    ans.erase(tot);
+    reverse(all(str));
+
+    // checking if the given input can be formed by the order of operations
+    string s1 = ans;
+    string expected_ans = "";  
+    expected_ans += s1;
+    int i = 0;
+    while(s1.length()!=0){
+        char ch = str[i];
+        s1.erase(remove(all(s1), ch),s1.end());
+        expected_ans += s1;
+        i++;
+    }
+
+    if(expected_ans == s){
+        cout<<ans<<" "<<str<<endl;
+    }else{
+        cout<<"-1"<<endl;
+    }
+
 }
 
 int main() {
@@ -91,6 +129,7 @@ int main() {
     cin >> tc;
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
+        debug(t);
         solve();
     }
 }

@@ -6,7 +6,7 @@
     |    	                            |
     -------------------------------------
 
-    Link - https://codeforces.com/problemset/problem/1542/C
+    Link -https://codeforces.com/problemset/problem/1491/C
 */
 
 #include <bits/stdc++.h>
@@ -33,6 +33,7 @@ using namespace std;
 #define ff first
 #define ss second
 #define mp make_pair
+#define endl '\n'
 
 #ifndef ONLINE_JUDGE
 #define debug(x) cerr << #x <<" "; _print(x); cerr << endl;
@@ -63,20 +64,31 @@ const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
-ll lcm(ll x, ll y){
-    return (x/__gcd(x,y))*y;
-}
 
 void solve() {
     ll n;
     cin>>n;
-    ll k = 1, ans = 0;    
-    for(int i=1; i<=n; i++){
-        k = lcm(k, i);
-        if(k>n) break;
-        ans = (ans + n/k)%MOD;
+    vll strength(n+5);
+    fll0(i,n) cin>>strength[i];
+    vll cnt(n+5,0);
+    ll ans = 0;
+
+    fll0(i,n){
+        ll temp = cnt[i];
+        if(temp<strength[i]-1){
+            ans += (strength[i]-temp-1);
+            temp += (strength[i]-temp-1);
+        }
+        
+        cnt[i+1] += (temp-strength[i] + 1);
+        if(i+2<n){
+            for(ll j=i+2; j<min(n,i+strength[i]+1); j++){
+                cnt[j]++;
+            }
+        }
     }
-    cout<<(ans+n)%MOD<<endl;
+
+    cout<<ans<<endl;
 }
 
 int main() {

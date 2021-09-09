@@ -2,11 +2,11 @@
     -------------------------------------
     |									|
     |	Author - Devjit Choudhury		|
-    |	Date   - ___________________ 	|	
+    |	Date   - 2021-09-08 01:48:45 	|	
     |    	                            |
     -------------------------------------
 
-    Link - https://codeforces.com/problemset/problem/1542/C
+    Link - https://codeforces.com/contest/1529/problem/B
 */
 
 #include <bits/stdc++.h>
@@ -33,6 +33,7 @@ using namespace std;
 #define ff first
 #define ss second
 #define mp make_pair
+#define endl '\n'
 
 #ifndef ONLINE_JUDGE
 #define debug(x) cerr << #x <<" "; _print(x); cerr << endl;
@@ -61,22 +62,52 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
 
 const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
-const ll INF = 1e9;
+const ll INF = 1e10;
 
-ll lcm(ll x, ll y){
-    return (x/__gcd(x,y))*y;
-}
+/*
+LOGIC :- 
+
+    SELECT THE HIGHEST NON NEGATIVE NUMEBR AND REMOVE IT
+    if( (least +ve value <=0 )  ans = n
+    ALL NEGATIVE NUMBERS ( diff greater than equal to (least +ve value ) TO BE TAKEN
+
+
+*/
 
 void solve() {
     ll n;
     cin>>n;
-    ll k = 1, ans = 0;    
-    for(int i=1; i<=n; i++){
-        k = lcm(k, i);
-        if(k>n) break;
-        ans = (ans + n/k)%MOD;
+    vll v(n);
+    fll0(i,n)
+        cin>>v[i];   
+    sort(all(v));
+    debug(v);
+    ll ans = 0;
+    ll mx = -1*INF;
+    for(ll i=0; i<n; i++){
+        mx = max(mx, v[i]);
+        if(mx>0){
+            break;
+        }
     }
-    cout<<(ans+n)%MOD<<endl;
+    debug(mx);
+    if(mx <= 0){
+        cout<<n<<endl;
+    }else if(mx>0){
+        ans++;
+        ll k=0;
+        while(v[k]<=0 && k<n){
+            debug(k);
+            debug(v[k]);
+            ans++;
+            k = lower_bound(all(v), v[k]+mx) - v.begin();
+        }
+        // debug(1ll*(upper_bound(all(v),0)-v.begin()));
+        cout<<max(ans,1ll*(upper_bound(all(v),0)-v.begin()))<<endl;
+    }
+
+
+
 }
 
 int main() {

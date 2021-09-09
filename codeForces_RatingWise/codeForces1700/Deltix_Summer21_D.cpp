@@ -6,7 +6,7 @@
     |    	                            |
     -------------------------------------
 
-    Link - https://codeforces.com/problemset/problem/1542/C
+    Link - 
 */
 
 #include <bits/stdc++.h>
@@ -33,6 +33,7 @@ using namespace std;
 #define ff first
 #define ss second
 #define mp make_pair
+#define endl '\n'
 
 #ifndef ONLINE_JUDGE
 #define debug(x) cerr << #x <<" "; _print(x); cerr << endl;
@@ -63,20 +64,55 @@ const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
-ll lcm(ll x, ll y){
-    return (x/__gcd(x,y))*y;
-}
 
 void solve() {
-    ll n;
-    cin>>n;
-    ll k = 1, ans = 0;    
-    for(int i=1; i<=n; i++){
-        k = lcm(k, i);
-        if(k>n) break;
-        ans = (ans + n/k)%MOD;
+    int n, k;
+    cin>>n>>k;
+    int a1,a2,a3;
+    int x,y,z, x1,y1,x2,y2,z1,z2;
+    cout<<"and 1 2";
+    fflush(stdout);
+    cin>>x1;
+    cout<<"or 1 2";
+    fflush(stdout);
+    cin>>x2;
+    x = x1+x2;
+    cout<<"and 2 3";
+    fflush(stdout);
+    cin>>y1;
+    cout<<"or 2 3";
+    fflush(stdout);
+    cin>>y2;
+    y = y1+y2;
+    cout<<"and 1 3";
+    fflush(stdout);
+    cin>>z1;
+    cout<<"or 1 3";
+    fflush(stdout);
+    cin>>z2;
+    z = z1 + z2;
+
+    a1 = (x-y+z)/2;
+    a2 = x - a1;
+    a3 = y - a2;
+    vi v;
+    v.pb(a1);
+    v.pb(a2);
+    v.pb(a3);
+    for(int i=4; i<=n ;i++){
+        cout<<"and "<<i<<" "<<i-1<<endl;
+        fflush(stdout);
+        cin>>x1;
+        cout<<"or "<<i<<" "<<i-1<<endl;
+        fflush(stdout);
+        cin>>x2;
+        x = x1+x2;
+        v.pb(x - v.back());
     }
-    cout<<(ans+n)%MOD<<endl;
+    debug(v);
+    sort(all(v));
+    cout<<"finish "<<v[k-1]<<endl;
+
 }
 
 int main() {
@@ -88,7 +124,7 @@ int main() {
       freopen("error.txt", "w", stderr);
     #endif
     int tc = 1;
-    cin >> tc;
+    //cin >> tc;
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
         solve();

@@ -6,7 +6,7 @@
     |    	                            |
     -------------------------------------
 
-    Link - https://codeforces.com/problemset/problem/1542/C
+    Link - 
 */
 
 #include <bits/stdc++.h>
@@ -63,20 +63,33 @@ const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
-ll lcm(ll x, ll y){
-    return (x/__gcd(x,y))*y;
-}
+int solve(){
+	int n, m;
+	cin>>n>>m;
+	int dp[n+1][2];
+	dp[1][0] = 0;
+	dp[1][1] = 0;
+	dp[2][0] = 1;
+	dp[2][1] = 1;
+	for(int i=3; i<=n; i++){
+		long long temp1 = 0, temp2 = 0;
+		for(int j=2; j<=i; j++){
+			if(i/j>=2)
+				temp2 += (dp[i/j][0] + dp[i/j][1])%m;
+			else if(i/j==1) temp2 += 1;
+	    	else if(i/j==0)	temp2 += 0;
+            debug(temp2);
 
-void solve() {
-    ll n;
-    cin>>n;
-    ll k = 1, ans = 0;    
-    for(int i=1; i<=n; i++){
-        k = lcm(k, i);
-        if(k>n) break;
-        ans = (ans + n/k)%MOD;
-    }
-    cout<<(ans+n)%MOD<<endl;
+            if(j==i)	continue;
+			else	temp1 += (dp[j][0] + dp[j][1])%m;
+		}
+		dp[i][0] = (temp1+1)%m;
+		dp[i][1] = temp2%m;
+	}
+    // f1(i,n){
+    //     cout<<dp[i][0]<<" "<<dp[i][1]<<endl;
+    // }
+	cout<<(dp[n][0]+dp[n][1])%m<<endl;
 }
 
 int main() {
@@ -88,7 +101,7 @@ int main() {
       freopen("error.txt", "w", stderr);
     #endif
     int tc = 1;
-    cin >> tc;
+    //cin >> tc;
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
         solve();

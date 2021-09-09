@@ -6,7 +6,7 @@
     |    	                            |
     -------------------------------------
 
-    Link - https://codeforces.com/problemset/problem/1542/C
+    Link - https://codeforces.com/contest/1529/problem/D
 */
 
 #include <bits/stdc++.h>
@@ -33,6 +33,7 @@ using namespace std;
 #define ff first
 #define ss second
 #define mp make_pair
+#define endl '\n'
 
 #ifndef ONLINE_JUDGE
 #define debug(x) cerr << #x <<" "; _print(x); cerr << endl;
@@ -60,23 +61,26 @@ template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_pr
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 
 const int MAX_N = 1e5 + 1;
-const ll MOD = 1e9 + 7;
+const ll MOD = 998244353;
 const ll INF = 1e9;
 
-ll lcm(ll x, ll y){
-    return (x/__gcd(x,y))*y;
-}
 
 void solve() {
-    ll n;
+    int n;
     cin>>n;
-    ll k = 1, ans = 0;    
+    vector<int> dp(n+1,0);
     for(int i=1; i<=n; i++){
-        k = lcm(k, i);
-        if(k>n) break;
-        ans = (ans + n/k)%MOD;
+        for(int j=2*i; j<=n; j+=i){
+            dp[j]++;
+        }
     }
-    cout<<(ans+n)%MOD<<endl;
+    dp[0] = 1;
+    ll temp = 1;
+    for(int i=1; i<=n; i++){
+        dp[i] = (dp[i] + temp)%MOD;
+        temp = (temp + dp[i])%MOD;
+    }
+    cout<<dp[n]<<endl;
 }
 
 int main() {
@@ -88,7 +92,7 @@ int main() {
       freopen("error.txt", "w", stderr);
     #endif
     int tc = 1;
-    cin >> tc;
+    //cin >> tc;
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
         solve();

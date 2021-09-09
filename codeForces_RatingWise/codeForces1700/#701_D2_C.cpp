@@ -6,7 +6,7 @@
     |    	                            |
     -------------------------------------
 
-    Link - https://codeforces.com/problemset/problem/1542/C
+    Link - https://codeforces.com/problemset/problem/1485/C
 */
 
 #include <bits/stdc++.h>
@@ -63,20 +63,14 @@ const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
-ll lcm(ll x, ll y){
-    return (x/__gcd(x,y))*y;
-}
 
 void solve() {
-    ll n;
-    cin>>n;
-    ll k = 1, ans = 0;    
-    for(int i=1; i<=n; i++){
-        k = lcm(k, i);
-        if(k>n) break;
-        ans = (ans + n/k)%MOD;
-    }
-    cout<<(ans+n)%MOD<<endl;
+    ll x, y;
+    cin>>x>>y;
+    ll ans = 0;
+    for(int i=1; i*i<x; i++)
+        ans += max(min(y,x/i-1)-i, 0LL);
+    cout<<ans<<endl;
 }
 
 int main() {

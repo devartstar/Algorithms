@@ -6,7 +6,7 @@
     |    	                            |
     -------------------------------------
 
-    Link - https://codeforces.com/problemset/problem/1542/C
+    Link - N queen problem
 */
 
 #include <bits/stdc++.h>
@@ -63,32 +63,39 @@ const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
-ll lcm(ll x, ll y){
-    return (x/__gcd(x,y))*y;
+int n;
+vi placed;
+int ans = 0;
+
+void rec(int row){
+    if(row==n){
+        ans++;
+        return;
+    }
+    for(int col=0; col<n; col++){
+        bool safe = true;
+        for(int prevRow=0; prevRow<row; prevRow++){
+            int prevCol = placed[prevRow];
+            if(prevCol == col || abs(row-prevRow) == abs(col-prevCol))
+                safe = false;
+        }
+        if(safe){
+            placed.pb(col);
+            rec(row+1);
+            placed.pop_back();
+        }
+    }
 }
 
 void solve() {
-    ll n;
     cin>>n;
-    ll k = 1, ans = 0;    
-    for(int i=1; i<=n; i++){
-        k = lcm(k, i);
-        if(k>n) break;
-        ans = (ans + n/k)%MOD;
-    }
-    cout<<(ans+n)%MOD<<endl;
+    rec(0);
+    cout<<ans<<endl;
 }
 
 int main() {
-    ios_base::sync_with_stdio(0);
-    cin.tie(0); cout.tie(0);
-    #ifndef ONLINE_JUDGE
-      freopen("input.txt","r",stdin);
-      freopen("output.txt","w",stdout);
-      freopen("error.txt", "w", stderr);
-    #endif
     int tc = 1;
-    cin >> tc;
+    //cin >> tc;
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
         solve();

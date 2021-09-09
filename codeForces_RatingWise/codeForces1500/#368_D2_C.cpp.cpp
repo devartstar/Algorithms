@@ -6,7 +6,7 @@
     |    	                            |
     -------------------------------------
 
-    Link - https://codeforces.com/problemset/problem/1542/C
+    Link - https://codeforces.com/contest/707/problem/C
 */
 
 #include <bits/stdc++.h>
@@ -63,20 +63,21 @@ const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
-ll lcm(ll x, ll y){
-    return (x/__gcd(x,y))*y;
-}
 
 void solve() {
     ll n;
     cin>>n;
-    ll k = 1, ans = 0;    
-    for(int i=1; i<=n; i++){
-        k = lcm(k, i);
-        if(k>n) break;
-        ans = (ans + n/k)%MOD;
+    if(n==1 || n==2){
+        cout<<-1<<endl;
+        return;
     }
-    cout<<(ans+n)%MOD<<endl;
+    if(n&1){
+        ll a= (n+1)/2, b=(n-1)/2;
+        cout<<a*a+b*b<<" "<<2*a*b<<endl;
+    }else{
+        ll a = n/2, b=1;
+        cout<<a*a+b*b<<" "<<a*a-b*b<<endl;
+    }
 }
 
 int main() {
@@ -88,7 +89,7 @@ int main() {
       freopen("error.txt", "w", stderr);
     #endif
     int tc = 1;
-    cin >> tc;
+    //cin >> tc;
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
         solve();

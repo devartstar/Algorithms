@@ -33,6 +33,7 @@ using namespace std;
 #define ff first
 #define ss second
 #define mp make_pair
+#define endl '\n'
 
 #ifndef ONLINE_JUDGE
 #define debug(x) cerr << #x <<" "; _print(x); cerr << endl;
@@ -63,36 +64,79 @@ const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
+ll expocalc(int n, int r){
+    ll ans = 1; 
+    while(r>0){
+        cout<<r<<endl;
+        if(r&1)
+            ans = (ans*n)%MOD; 
+        n = (n*n)%MOD;
+        r/=2;
+    }
+    return ans;
+}
+
+vi primes;
+
+void sieve(int x){
+    vb isPrime(x+1, true);
+    isPrime[0] = isPrime[1] = false;
+    for(int i=2; i<=x; i++){
+        if(isPrime[i]){
+            for(int j=2*i; j<=x; j+=i){
+                isPrime[j] = false;
+            }
+        }
+    }
+    primes.clear();
+    f0(i,x+1){
+        cout<<i<<" ";
+        if(isPrime[i])  primes.pb(i);
+    }
+    cout<<endl;
+}
+
+vi primefactors;
+void primeFactors(int n){
+    primefactors.clear();
+    for(int i=2; i*i<=n; i++){
+        while(n%i==0){
+            primefactors.pb(i);
+            n/=i;
+        }
+    }
+    if(n>1){
+        primefactors.pb(n);
+        n=1;
+    }
+}
+
+
+bool isPrime(int n){
+    if(n==1)    return false;
+    for(int i=2; i*i<=n; i++){
+        if(!(n%i))  return false;
+    }
+    return true;
+}
 
 void solve() {
-    ll n;
+    int n, r;
     cin>>n;
-    vll v(n+1);
-    v[0]=-1*INF;
-    ll sum=0;
-    fll1(i,n) cin>>v[i], sum+=v[i];
-    double a = *max_element(all(v))*1.0;
-    double b = (sum-a)*1.0;
-    // printf("%.8f\n", a);
-    // printf("%.8f\n", b);
-    
-    double ans = a + b/(n-1);
-    printf("%.8f\n", ans);
-    
-    // sum[0] = 0;
-    // 
-    // double mx = -1.0*INF;
-    // f(i,1,n){
-    //     double suma = (sum[i]*1.0)/i;
-    //     double sumb = (sum[n]-sum[i])*1.0/(n-i);
-    //     if(suma+sumb-mx>=0.000001)
-    //         mx = suma+sumb;
-    // }
-    // printf("%0.8f\n", mx);
-
+    sieve(n);
+    primeFactors(n);
+    debug(primes);
+    debug(primefactors);
 }
 
 int main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
+    #ifndef ONLINE_JUDGE
+      freopen("input.txt","r",stdin);
+      freopen("output.txt","w",stdout);
+      freopen("error.txt", "w", stderr);
+    #endif
     int tc = 1;
     cin >> tc;
     f1(t,tc) {

@@ -2,21 +2,22 @@
     -------------------------------------
     |									|
     |	Author - Devjit Choudhury		|
-    |	Date   - ___________________ 	|	
+    |	Date   - 2021-10-19 10:44:36 	|	
     |    	                            |
     -------------------------------------
- 
-    Link - 
+
+    Link - https://codeforces.com/problemset/problem/1313/C1
 */
- 
+
 #include <bits/stdc++.h>
 using namespace std;
- 
+
 #define ar array
 #define ll long long
 #define ull unsigned long long
 #define lld long double
 #define vi vector<int>
+#define vb vector<bool>
 #define pii pair<int,int>
 #define pll pair<long, long>
 #define vll vector<long long>
@@ -32,13 +33,14 @@ using namespace std;
 #define ff first
 #define ss second
 #define mp make_pair
- 
+#define endl '\n'
+
 #ifndef ONLINE_JUDGE
 #define debug(x) cerr << #x <<" "; _print(x); cerr << endl;
 #else
 #define debug(x)
 #endif
- 
+
 void _print(ll w) {cerr << w;}
 void _print(int w) {cerr << w;}
 void _print(string w) {cerr << w;}
@@ -46,7 +48,7 @@ void _print(char w) {cerr << w;}
 void _print(lld w) {cerr << w;}
 void _print(double w) {cerr << w;}
 void _print(ull w) {cerr << w;}
- 
+
 template <class T, class V> void _print(pair <T, V> p);
 template <class T> void _print(vector <T> v);
 template <class T> void _print(set <T> v);
@@ -57,53 +59,46 @@ template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_prin
 template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
- 
+
 const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
-const ll INF = 1e9;
- 
- 
+const ll INF = 1e9+7;
+
+
 void solve() {
-    int n,m;
-    cin>>n>>m;
-    int a[n][m];
-    int b[n][m];
-    vi f1[n+m-1];
-    vi f2[n+m-1];
+    ll n;
+    cin>>n;
+    vll v(n);
+    fll0(i,n){
+        cin>>v[i];
+    }
+    vll ans;
+    ll sum = 0, final_sum = -1;
+    vll v3;
     f0(i,n){
-        f0(j,m){
-            cin>>a[i][j];
-            f1[i+j].pb(a[i][j]);    
+        sum = 0;
+        vll temp(n);
+        // 0 to x-1
+        for(ll j=i; j>=0; j--){
+            if(j==i)    temp[j] = v[j];
+            else        temp[j] = min(v[j], temp[j+1]);
+            sum += temp[j];
         }
-    } 
-    f0(i,n){
-        f0(j,m){
-            cin>>b[i][j];
-            f2[i+j].pb(b[i][j]);    
+        // x+1 to n-1
+        for(ll j=i+1; j<n; j++){
+            temp[j] = min(temp[j-1], v[j]);
+            sum += temp[j];
         }
-    }
-    
-    f0(i,n+m-1){
-        debug(f1[i]);
-        debug(f2[i]);
-    }
- 
-    bool ans = true;
-    f0(i,n+m-1){
-        sort(all(f1[i]));
-        sort(all(f2[i]));
-        if(f1[i]!=f2[i]){
-            ans=false;
-            break;
+        if(sum > final_sum){
+            final_sum = sum;
+            ans = temp;
         }
     }
-    if(ans)
-        cout<<"YES"<<endl;
-    else
-        cout<<"NO"<<endl;
- 
+    debug(final_sum);
+    for(ll x : ans)   cout<<x<<" ";
+    cout<<endl;
 }
- 
+
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);

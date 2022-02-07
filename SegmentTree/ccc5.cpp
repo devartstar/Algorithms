@@ -105,10 +105,11 @@ bool isPower(string s1, string s2)
 int main()
 {
 	string s1 = "12", s2 = "144";
-	cout << (isPower(s1, s2) ? "YES\n" : "NO\n");
+    string temp = s1;
+	while (!isGreaterThanEqualTo(s1, s2))
+		s1 = multiply(s1, temp);
 
-	s1 = "4099", s2 = "2";
-	cout << (isPower(s1, s2) ? "YES\n" : "NO\n");
+	return s1 == s2;
 
 	return 0;
 }

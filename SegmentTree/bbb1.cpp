@@ -1,207 +1,85 @@
-#include <iostream>
-#include <string>
+/*
+    -------------------------------------
+    |									|
+    |	Author - Devjit Choudhury		|
+    |	Roll   - 19MA20014             	|	
+    |    	                            |
+    -------------------------------------
+
+     LAB 1 - QUES 3
+*/
+
+#include <bits/stdc++.h>
 using namespace std;
 
-int calculateLength(string s){
-    int i;
-    for(i = 0; s[i] != '\0'; ++i);
-    return i;
-}
+#define ar array
+#define ll long long
+#define ull unsigned long long
+#define lld long double
+#define vi vector<int>
+#define vb vector<bool>
+#define pii pair<int,int>
+#define pll pair<long, long>
+#define vll vector<long long>
+#define vpii vector<pair<int,int>>
+#define all(v) v.begin(),v.end()
+#define f0(i, n) for (int i = 0; i < n; i++) // 0 based indexing
+#define f1(i, n) for (int i = 1; i <= n; i++) // 1 based indexing
+#define f(i, a, b) for (int i = a; i <= b; i++) // 1 based indexing
+#define fll0(i, n) for (long long i = 0; i < n; i++) // 0 based indexing
+#define fll1(i, n) for (long long i = 1; i <= n; i++) // 1 based indexing
+#define fll(i, a, b) for (long long i = a; i <= b; i++) // 1 based indexing
+#define pb push_back
+#define ff first
+#define ss second
+#define mp make_pair
 
-void reverseStr(string& str)
-{
-    int n = calculateLength(str);
- 
-    // Swap character starting from two
-    // corners
-    for (int i = 0; i < n / 2; i++)
-        swap(str[i], str[n - i - 1]);
-}
+#ifndef ONLINE_JUDGE
+#define debug(x) cerr << #x <<" "; _print(x); cerr << endl;
+#else
+#define debug(x)
+#endif
 
-bool bigger(string a, string b) // check if a is strictly bigger than b or not
-{
-    if (a.length() > b.length()) return true;
-    if (a.length() < b.length()) return false;
-    for(int i = 0; i < a.length(); i++)
-    {
-        if (a[i] > b[i]) return true;
-        else if (a[i] < b[i]) return false;
-    }
-    return false;
-}
+void _print(ll w) {cerr << w;}
+void _print(int w) {cerr << w;}
+void _print(string w) {cerr << w;}
+void _print(char w) {cerr << w;}
+void _print(lld w) {cerr << w;}
+void _print(double w) {cerr << w;}
+void _print(ull w) {cerr << w;}
 
-string mul(string A, string B) // multiply strings
-{
-    reverseStr(A);
-    reverseStr(B);
-    string C;
-    C.resize(calculateLength(A) + calculateLength(B),'0');
-    for (int i = 0; i < calculateLength(A); i++)
-    {
-        int c = 0;
-        for(int j = 0; j<=calculateLength(B)-1; j++)
-        {
-            c += ((A[i] - '0') * (B[j] - '0') + C[i + j] - '0');
-            C[i + j] = (char)(c%10 + '0');
-            c/=10;
-        }
-        if (c > 0) C[i + B.length()] += c;
-    }
-    reverseStr(C);
-    while (C.size() > 1 && C[0] == '0') 
-        C.erase(0, 1);
-    return C;
-}
+template <class T, class V> void _print(pair <T, V> p);
+template <class T> void _print(vector <T> v);
+template <class T> void _print(set <T> v);
+template <class T, class V> void _print(map <T, V> v);
+template <class T> void _print(multiset <T> v);
+template <class T, class V> void _print(pair <T, V> p) {cerr << "{"; _print(p.ff); cerr << ","; _print(p.ss); cerr << "}";}
+template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
+template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
+template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
+template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 
-string makePreci(string s, int k){
-    int pos;
-    string finans ="";
-    for(int i=0;i<calculateLength(s);i++){
-        if(s[i]=='.'){
-            pos = i;
-            break;
-        }
-        finans += s[i];
-    }
-    int j=0;
-    for(int i=0;i<=k;i++){
-        finans += s[pos+i];
-    }
-    return finans;
-}
+const int MAX_N = 1e5 + 1;
+const ll MOD = 1e9 + 7;
+const ll INF = 1e9;
 
-string sub(string str1, string str2) // substract strings, also from geekforgeeks
-{
-    if (bigger(str2, str1)) swap(str1, str2);
-    string str = "";
-    int n1 = calculateLength(str1), n2 = calculateLength(str2);
-    reverseStr(str1);
-    reverseStr(str2);
-    int carry = 0;
-    for (int i = 0; i < n2; i++) 
-    {
-        int sub = ((str1[i] - '0') - (str2[i] - '0') - carry);
-        if (sub < 0) {
-            sub = sub + 10;
-            carry = 1;
-        }
-        else
-            carry = 0;
+
+void solve() {
     
-        str += (sub + '0');
-    }
-    for (int i = n2; i < n1; i++) 
-    {
-        int sub = ((str1[i] - '0') - carry);
-        if (sub < 0) {
-            sub = sub + 10;
-            carry = 1;
-        }
-        else
-            carry = 0;
-    
-        str += (sub + '0');
-    }
-    reverseStr(str);
-    while (calculateLength(str) > 1 && str[0] == '0'){
-        for(int i=0; i<calculateLength(str)-1;i++){
-            str[i] = str[i+1];
-        }
-    }
-    return str;
 }
 
-int main(){
-    cout<<"Input two Decimals :- \n";
-    string s1, s2;
-    cin>>s1>>s2;
-    cout<<"Precision to be followed : - \n";
-    int prec;  cin>>prec;
-
-    // Calculating the length of the input given
-    int len1, len2;
-    len1 = calculateLength(s1);
-    len2 = calculateLength(s2);
-    
-    // finding out the position of decimal in both the inputs
-    int posOfdec1=-1, posOfdec2=-1;
-    for(int i=0; i<len1; i++){
-        if(s1[i]=='.'){
-            posOfdec1 = i;
-            break;
-        }
+int main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
+    #ifndef ONLINE_JUDGE
+      freopen("input.txt","r",stdin);
+      freopen("output.txt","w",stdout);
+      freopen("error.txt", "w", stderr);
+    #endif
+    int tc = 1;
+    //cin >> tc;
+    f1(t,tc) {
+        // cout << "Case #" << t  << ": ";
+        solve();
     }
-    for(int i=0; i<len2; i++){
-        if(s2[i]=='.'){
-            posOfdec2 = i;
-            break;
-        }
-    }
-
-
-    // if input is given as (eg. 5 i am considering it 5.0000)
-    // making the strings of equal length.
-    // !!! initially taking 10 for easy debugging alter to be changed to 300(as given by sir)
-    if(posOfdec1==-1){
-        s1 += '.';
-        for(int i=0;i<=10; i++){
-            s1 += '0';
-        }
-    }else{
-        int temp = len1 - posOfdec1;
-        for(int i=0;i<=10-temp;i++){
-            s1 += '0';
-        }
-    }
-
-    // Removing the decimals for easier operation
-    // will put back the decimals at the end
-    string s11 = "";    // s11 is the copy of the string s1
-    int pos1;
-    for(pos1=0; pos1<calculateLength(s1); pos1++){
-        if(s1[pos1]=='.'){
-            break;
-        }
-        s11 += s1[pos1];
-    }
-    for(int i = pos1+1; i<calculateLength(s1); i++){
-        s11 += s1[i];
-    }
-    pos1 = calculateLength(s1)-pos1-1;
-    
-    
-    string temp = s11, ans1;
-    long long calcDeci = pos1;
-    while (bigger(s2,"0.0"))
-    {
-        ans1 = mul(s11,temp);
-        s11 = ans1;
-        calcDeci += pos1;
-        s2 = sub(s2, "1.0");
-    }
-
-    int finalPos = calcDeci;        // adjusting the decimal
-    string ans11 ="";
-    int finalPosOfDec1 = finalPos;
-
-    reverseStr(ans1);
-    for(int i=0;i<=300;i++){         // 10 to be made to 300
-        ans1 += '0';
-    }
-    for(int i=0;i<calculateLength(ans1); i++){
-        if(i==finalPosOfDec1){
-            ans11 += '.';
-        }
-        ans11 += ans1[i];
-    }
-    reverseStr(ans11);
-    while (calculateLength(ans11) > 1 && ans11[0] == '0'){
-        for(int i=0; i<calculateLength(ans11)-1;i++){
-            ans11[i] = ans11[i+1];
-        }
-    }
-    if(ans11[0]=='.')   ans11 = '0' + ans11;
-    cout<<makePreci(ans11, prec)<<endl;
-        
 }
-

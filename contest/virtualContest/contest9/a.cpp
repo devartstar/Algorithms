@@ -35,29 +35,6 @@ const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
 
-void solve() {
-    int n;
-    cin>>n;
-    if(n==0){
-        cout<<1<<endl;
-        return;
-    }
-    int a = n%4;
-    if(a==0){
-        cout<<6<<endl;
-    }
-    if(a==1){
-        cout<<8<<endl;
-    }
-    if(a==2){
-        cout<<4<<endl;
-    }
-    if(a==3){
-        cout<<2<<endl;
-    }
-
-}
-
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);

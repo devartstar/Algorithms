@@ -1,0 +1,12 @@
+mp(left, right) {11,15}
+i 4
+mp(a1,a2) {2,4}
+temp 5
+mp(a,mp(b,c)) {4,{9,4}}
+temp 1
+mp(a,mp(b,c)) {4,{5,4}}
+mp(left, right) {0,2}
+i 2
+mp(a1,a2) {0,2}
+temp -1
+mp(a,mp(b,c)) {2,{2,3}}

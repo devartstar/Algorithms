@@ -64,44 +64,24 @@ const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
-int n,m;
-vi v[100001];
-int visited[100001];
-int ncycle;
-int nloop;
-vi cycle;
 
-void dfs(int v, int p){
-  color[v] = 1; // GREY
-  for(int w : g[v]){
-    if(color[w] == 1){
-      // you found a cycle, it's easy to recover it now.
+void solve() {
+    ll n;  cin>>n;
+    vll v(n);
+    f0(i,n){
+        cin>>v[i];
     }
-    if(color[w] == 0) dfs(w, v);
-  }
-  color[v] = 2; // BLACK
-}
-
-void solve(){
+    ll ans = 0;
     f1(i,n){
-        if(!visited[i]){
-            debug(i);
-            if(cycleDetection(i, -1)) {
-                ncycle++;
+        for(ll j=0; j<=n-i; j++){
+            ll c = 0;
+            for(ll k=j; k<j+i; k++){
+                if(v[k]==0) c++;
             }
+            ans = ans + i + c;
         }
     }
-    cout<<m-2*nloop+ncycle<<endl;
-}
-
-void makeGraph(){
-    f0(i,m){
-        int x, y;
-        cin>>x>>y;
-        v[x].pb(y);
-        if(x==y)    
-            nloop++;
-    }
+    cout<<ans<<endl;
 }
 
 int main() {
@@ -114,16 +94,8 @@ int main() {
     #endif
     int tc = 1;
     cin >> tc;
-    
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
-        cin>>n>>m;
-        f1(i,n){
-            v[i].clear();
-            visited[i]=0;
-        }
-        ncycle = nloop = 0;
-        makeGraph();
         solve();
     }
 }

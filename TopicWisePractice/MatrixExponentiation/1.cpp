@@ -6,7 +6,8 @@
     |    	                            |
     -------------------------------------
 
-    Link - 
+    Link - https://www.spoj.com/problems/FIBOSUM/
+    Learning Resource - https://zobayer.blogspot.com/2010/11/matrix-exponentiation.html
 */
 
 #include <bits/stdc++.h>
@@ -64,44 +65,106 @@ const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
-int n,m;
-vi v[100001];
-int visited[100001];
-int ncycle;
-int nloop;
-vi cycle;
-
-void dfs(int v, int p){
-  color[v] = 1; // GREY
-  for(int w : g[v]){
-    if(color[w] == 1){
-      // you found a cycle, it's easy to recover it now.
+struct Mat {
+  ll n, m;
+  vector<vector<ll>> a;
+  Mat() { }
+  Mat(ll _n, ll _m) {n = _n; m = _m; a.assign(n, vector<ll>(m, 0)); }
+  Mat(vector< vector<ll> > v) { n = v.size(); m = n ? v[0].size() : 0; a = v; }
+  inline void make_unit() {
+    assert(n == m);
+    for (ll i = 0; i < n; i++)  {
+      for (ll j = 0; j < n; j++) a[i][j] = i == j;
     }
-    if(color[w] == 0) dfs(w, v);
   }
-  color[v] = 2; // BLACK
-}
-
-void solve(){
-    f1(i,n){
-        if(!visited[i]){
-            debug(i);
-            if(cycleDetection(i, -1)) {
-                ncycle++;
-            }
+  inline void display() {
+    for (ll i = 0; i < n; i++)  {
+      for (ll j = 0; j < m; j++) 
+        cout<<a[i][j]<<" ";
+      cout<<endl;  
+    }
+  }
+  inline Mat operator + (const Mat &b) {
+    assert(n == b.n && m == b.m);
+    Mat ans = Mat(n, m);
+    for(ll i = 0; i < n; i++) {
+      for(ll j = 0; j < m; j++) {
+        ans.a[i][j] = (a[i][j] + b.a[i][j]) % MOD;
+      }
+    }
+    return ans;
+  } 
+  inline Mat operator - (const Mat &b) {
+    assert(n == b.n && m == b.m);
+    Mat ans = Mat(n, m);
+    for(ll i = 0; i < n; i++) {
+      for(ll j = 0; j < m; j++) {
+        ans.a[i][j] = (a[i][j] - b.a[i][j] + MOD) % MOD;
+      }
+    }
+    return ans;
+  }
+  inline Mat operator * (const Mat &b) {
+    assert(m == b.n);
+    Mat ans = Mat(n, b.m);
+    for(ll i = 0; i < n; i++) {
+      for(ll j = 0; j < b.m; j++) {
+        for(ll k = 0; k < m; k++) {
+          ans.a[i][j] = (ans.a[i][j] + 1LL * a[i][k] * b.a[k][j] % MOD) % MOD;
         }
+      }
     }
-    cout<<m-2*nloop+ncycle<<endl;
+    return ans;
+  }
+  inline Mat pow(long long k) {
+    assert(n == m);
+    Mat ans(n, n), t = a; ans.make_unit();
+    while (k) {
+      if (k & 1) ans = ans * t;
+      t = t * t;
+      k >>= 1;
+    }
+    return ans;
+  }
+  inline Mat& operator += (const Mat& b) { return *this = (*this) + b; }
+  inline Mat& operator -= (const Mat& b) { return *this = (*this) - b; }
+  inline Mat& operator *= (const Mat& b) { return *this = (*this) * b; }
+  inline bool operator == (const Mat& b) { return a == b.a; }
+  inline bool operator != (const Mat& b) { return a != b.a; }
+};
+
+
+Mat matexpo(Mat x, ll y){
+    Mat ans(3,3), temp(3,3);
+    ans.make_unit();
+    temp = x;
+    ll r = 1;
+    while(r <= y){
+        if(r&y){
+            ans = ans * temp;
+        }
+        temp = temp * temp;
+        r = r << 1;
+    }
+    return ans;
 }
 
-void makeGraph(){
-    f0(i,m){
-        int x, y;
-        cin>>x>>y;
-        v[x].pb(y);
-        if(x==y)    
-            nloop++;
-    }
+void solve() {
+    ll n, m;    cin>>n>>m;
+    Mat A(3,3);
+    Mat B(3,1);
+    A.a[0][0] = 0;A.a[0][1] = 1;A.a[0][2] = 0;A.a[1][0] = 1;A.a[1][1] = 1;A.a[1][2] = 0;A.a[2][0] = 0;A.a[2][1] = 1;A.a[2][2] = 1;
+    B.a[0][0] = 0;B.a[1][0] = 1;B.a[2][0] = 0;
+
+    Mat val1(3,3), val2(3,3);
+    val1 = matexpo(A,n-1);
+    val2 = matexpo(A,m);
+
+    Mat ans1(3,1), ans2(3,1);
+    ans1 = val1 * B;
+    ans2 = val2 * B;
+
+    cout<<(ans2.a[2][0] - ans1.a[2][0])<<endl;
 }
 
 int main() {
@@ -114,16 +177,8 @@ int main() {
     #endif
     int tc = 1;
     cin >> tc;
-    
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
-        cin>>n>>m;
-        f1(i,n){
-            v[i].clear();
-            visited[i]=0;
-        }
-        ncycle = nloop = 0;
-        makeGraph();
         solve();
     }
 }

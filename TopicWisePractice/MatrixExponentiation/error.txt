@@ -1,0 +1,10 @@
+mp(i,val) {13,653}
+mp(i,val) {14,637}
+mp(i,val) {15,625}
+mp(i,val) {16,617}
+mp(i,val) {17,613}
+mp(i,val) {13,610}
+mp(i,val) {14,596}
+mp(i,val) {15,586}
+mp(i,val) {16,580}
+mp(i,val) {17,578}

@@ -60,48 +60,60 @@ template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 
-const int MAX_N = 1e5 + 1;
+const int MAX_N = 1e6 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
-int n,m;
-vi v[100001];
-int visited[100001];
-int ncycle;
-int nloop;
-vi cycle;
 
-void dfs(int v, int p){
-  color[v] = 1; // GREY
-  for(int w : g[v]){
-    if(color[w] == 1){
-      // you found a cycle, it's easy to recover it now.
-    }
-    if(color[w] == 0) dfs(w, v);
-  }
-  color[v] = 2; // BLACK
-}
+void solve() {
+    ll n, k;    cin>>n>>k;
+    vi v(n+1);
+    f1(i,n) cin>>v[i];
+    debug(v);
+    vi freq(MAX_N, 0);
+    int c = 0;
 
-void solve(){
-    f1(i,n){
-        if(!visited[i]){
-            debug(i);
-            if(cycleDetection(i, -1)) {
-                ncycle++;
-            }
+    int left = 1, right = 1, ans = 0;
+    while(c<k){
+        // something with c
+        if(freq[v[right]] == 0){
+            c++;
         }
+        freq[v[right]]++;
+        right++;
+        if(right > n)   break;
     }
-    cout<<m-2*nloop+ncycle<<endl;
-}
+    right--;
+    debug(mp(left, right));
 
-void makeGraph(){
-    f0(i,m){
-        int x, y;
-        cin>>x>>y;
-        v[x].pb(y);
-        if(x==y)    
-            nloop++;
+    while(right <= n){   
+        ll lefttemp = left;
+        vi freqtemp = freq;
+        debug(lefttemp);
+        while(c==k){
+            freqtemp[v[lefttemp]]--;
+            if(freqtemp[v[lefttemp]] == 0){
+                break;
+            }
+            lefttemp++;
+            if(lefttemp == right)   break;
+        }
+        debug(lefttemp);
+        ans += (lefttemp - left + 1);
+        debug(ans);
+        right++;
+        if(right > n)   break;
+        if(freq[v[right]] == 0){
+            c++;
+            debug(c);
+            left = lefttemp + 1;
+            c--;
+        }
+        debug(mp(left, right));
+
     }
+    cout<<ans<<endl;
+
 }
 
 int main() {
@@ -114,16 +126,8 @@ int main() {
     #endif
     int tc = 1;
     cin >> tc;
-    
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
-        cin>>n>>m;
-        f1(i,n){
-            v[i].clear();
-            visited[i]=0;
-        }
-        ncycle = nloop = 0;
-        makeGraph();
         solve();
     }
 }

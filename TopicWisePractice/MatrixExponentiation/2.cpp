@@ -59,49 +59,72 @@ template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_prin
 template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
-
+#define fill(m,v) memset(m,v,sizeof(m));
 const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
 int n,m;
-vi v[100001];
-int visited[100001];
-int ncycle;
-int nloop;
-vi cycle;
+int i,j,k,l;
+int g[303][303];
+int a[303][303], r[303][303], t[303][303];
+int inf;
 
-void dfs(int v, int p){
-  color[v] = 1; // GREY
-  for(int w : g[v]){
-    if(color[w] == 1){
-      // you found a cycle, it's easy to recover it now.
-    }
-    if(color[w] == 0) dfs(w, v);
-  }
-  color[v] = 2; // BLACK
+void mul(int a[303][303], int b[303][303]){
+	fill(t,195);
+	int i,j,k;
+	for(i=0;i<n;++i)
+	for(j=0;j<n;++j){
+		for(k=0;k<n;++k) t[i][j] = max(t[i][j], a[i][k]+b[k][j]);
+	}
+	memcpy(a,t,sizeof(t));
 }
 
-void solve(){
-    f1(i,n){
-        if(!visited[i]){
-            debug(i);
-            if(cycleDetection(i, -1)) {
-                ncycle++;
-            }
-        }
-    }
-    cout<<m-2*nloop+ncycle<<endl;
+void pow(int b){
+	memcpy(a,g,sizeof(g));
+	fill(r,195);
+	for(int i=0;i<n;++i) r[i][i] = 0;
+	while(b){
+		if(b&1) mul(r,a);
+		mul(a,a);
+		b>>=1;
+	}
 }
 
-void makeGraph(){
-    f0(i,m){
-        int x, y;
-        cin>>x>>y;
-        v[x].pb(y);
-        if(x==y)    
-            nloop++;
-    }
+void solve() {
+    cin>>n>>m;
+	
+	inf = 1e9;
+	for(i=0;i<n;++i)
+	for(j=0;j<n;++j) if(i!=j) g[i][j] = -inf;
+	
+	for(k=0;k<m;++k){
+		cin>>i>>j;
+		--i; --j;
+		cin>>g[i][j]>>g[j][i];
+	}
+	
+	
+	int kl, kr, k;
+	kl = 2; kr = n+10;
+	
+	int ans = 0;
+	while(kl<kr){
+		k = (kl+kr)>>1;
+		
+		pow(k);
+		
+		
+		for(i=0;i<n;++i) if(r[i][i]>0) break;
+		
+		if(i==n) kl=k+1; else{
+			ans = k;
+			kr = k;
+		}
+	}
+	
+	
+	cout<<ans<<endl;
 }
 
 int main() {
@@ -113,17 +136,9 @@ int main() {
       freopen("error.txt", "w", stderr);
     #endif
     int tc = 1;
-    cin >> tc;
-    
+    //cin >> tc;
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
-        cin>>n>>m;
-        f1(i,n){
-            v[i].clear();
-            visited[i]=0;
-        }
-        ncycle = nloop = 0;
-        makeGraph();
         solve();
     }
 }

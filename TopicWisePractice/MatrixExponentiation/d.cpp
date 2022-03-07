@@ -62,46 +62,51 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
 
 const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
-const ll INF = 1e9;
+const ll INF = 1e18;
 
-int n,m;
-vi v[100001];
-int visited[100001];
-int ncycle;
-int nloop;
-vi cycle;
 
-void dfs(int v, int p){
-  color[v] = 1; // GREY
-  for(int w : g[v]){
-    if(color[w] == 1){
-      // you found a cycle, it's easy to recover it now.
+void solve() {
+    ll n;  cin>>n;
+    ll sum = 0, sum1 = 0;
+    vll a(n+1), b(n+1);
+    fll1(i,n) cin>>a[i], sum += a[i], sum1 += a[i]*a[i];
+    fll1(i,n) cin>>b[i], sum += b[i], sum1 += b[i]*b[i];
+    if(n==1){
+        cout<<0<<endl;
+        return;
     }
-    if(color[w] == 0) dfs(w, v);
-  }
-  color[v] = 2; // BLACK
-}
-
-void solve(){
+    bool dp[n+1][sum+1];
+    f0(i,n+1){
+        f0(j,sum+1)
+            dp[i][j] = 0;
+    }
+    dp[0][0] = true;
     f1(i,n){
-        if(!visited[i]){
-            debug(i);
-            if(cycleDetection(i, -1)) {
-                ncycle++;
+        f0(j,sum+1){
+            if(j-a[i] >= 0){
+                dp[i][j] |= dp[i-1][j-a[i]];
+            }
+            if(j-b[i] >= 0){
+                dp[i][j] |= dp[i-1][j-b[i]];
             }
         }
     }
-    cout<<m-2*nloop+ncycle<<endl;
-}
-
-void makeGraph(){
-    f0(i,m){
-        int x, y;
-        cin>>x>>y;
-        v[x].pb(y);
-        if(x==y)    
-            nloop++;
+    ll val = INF;
+    // f0(i,n+1){
+    //     f0(j,sum+1)
+    //         cout<<dp[i][j]<<" ";
+    //     cout<<endl;
+    // }
+    f0(i,sum+1){
+        if(dp[n][i]){
+            if(i*i + (sum-i)*(sum-i) < val){
+                val = i*i + (sum-i)*(sum-i);
+                debug(mp(i,val));
+            }
+        }
     }
+    
+    cout<<val*1ll + (n-2)*sum1*1ll<<endl;
 }
 
 int main() {
@@ -114,16 +119,8 @@ int main() {
     #endif
     int tc = 1;
     cin >> tc;
-    
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
-        cin>>n>>m;
-        f1(i,n){
-            v[i].clear();
-            visited[i]=0;
-        }
-        ncycle = nloop = 0;
-        makeGraph();
         solve();
     }
 }

@@ -60,48 +60,45 @@ template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 
-const int MAX_N = 1e5 + 1;
+const int MAX_N = 3e5 + 5;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
-int n,m;
-vi v[100001];
-int visited[100001];
-int ncycle;
-int nloop;
-vi cycle;
+int n;
+vi v(MAX_N);
 
-void dfs(int v, int p){
-  color[v] = 1; // GREY
-  for(int w : g[v]){
-    if(color[w] == 1){
-      // you found a cycle, it's easy to recover it now.
-    }
-    if(color[w] == 0) dfs(w, v);
-  }
-  color[v] = 2; // BLACK
+int isok(int pos){
+    if(pos-1<0 || pos+1>=n)
+        return false;
+    if(v[pos-1] < v[pos] && v[pos+1] < v[pos])
+        return true;
+    if(v[pos-1] > v[pos] && v[pos+1] > v[pos])
+        return true;
+    return false;
 }
 
-void solve(){
-    f1(i,n){
-        if(!visited[i]){
-            debug(i);
-            if(cycleDetection(i, -1)) {
-                ncycle++;
-            }
+void solve() {
+    int c = 0;  cin>>n;
+    f0(i,n) cin>>v[i];
+    vi ok(n,0);
+    f1(i,n-2){
+        if(isok(i)){
+            ok[i] = 1;
+            c++;
         }
     }
-    cout<<m-2*nloop+ncycle<<endl;
-}
-
-void makeGraph(){
-    f0(i,m){
-        int x, y;
-        cin>>x>>y;
-        v[x].pb(y);
-        if(x==y)    
-            nloop++;
+    int ans, fin_ans = c;
+    f1(i,n-2){
+        ans = c;
+        int temp = v[i];
+        ans = ans - (ok[i-1]+ok[i]+ok[i+1]);
+        v[i] = v[i-1];
+        fin_ans = min(fin_ans, ans + isok(i-1) + isok(i) + isok(i+1));
+        v[i] = v[i+1];
+        fin_ans = min(fin_ans, ans + isok(i-1) + isok(i) + isok(i+1));
+        v[i] = temp;
     }
+    cout<<fin_ans<<endl;
 }
 
 int main() {
@@ -114,16 +111,8 @@ int main() {
     #endif
     int tc = 1;
     cin >> tc;
-    
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
-        cin>>n>>m;
-        f1(i,n){
-            v[i].clear();
-            visited[i]=0;
-        }
-        ncycle = nloop = 0;
-        makeGraph();
         solve();
     }
 }

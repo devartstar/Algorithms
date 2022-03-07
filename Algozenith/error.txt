@@ -1,0 +1,120 @@
+mp(left, right) {0,1000000000000000000}
+mid 500000000000000000
+mp(left, right) {0,500000000000000000}
+mid 250000000000000000
+mp(left, right) {0,250000000000000000}
+mid 125000000000000000
+mp(left, right) {0,125000000000000000}
+mid 62500000000000000
+mp(left, right) {0,62500000000000000}
+mid 31250000000000000
+mp(left, right) {0,31250000000000000}
+mid 15625000000000000
+mp(left, right) {0,15625000000000000}
+mid 7812500000000000
+mp(left, right) {0,7812500000000000}
+mid 3906250000000000
+mp(left, right) {0,3906250000000000}
+mid 1953125000000000
+mp(left, right) {0,1953125000000000}
+mid 976562500000000
+mp(left, right) {0,976562500000000}
+mid 488281250000000
+mp(left, right) {0,488281250000000}
+mid 244140625000000
+mp(left, right) {0,244140625000000}
+mid 122070312500000
+mp(left, right) {0,122070312500000}
+mid 61035156250000
+mp(left, right) {0,61035156250000}
+mid 30517578125000
+mp(left, right) {0,30517578125000}
+mid 15258789062500
+mp(left, right) {0,15258789062500}
+mid 7629394531250
+mp(left, right) {0,7629394531250}
+mid 3814697265625
+mp(left, right) {0,3814697265625}
+mid 1907348632812
+mp(left, right) {0,1907348632812}
+mid 953674316406
+mp(left, right) {0,953674316406}
+mid 476837158203
+mp(left, right) {0,476837158203}
+mid 238418579101
+mp(left, right) {0,238418579101}
+mid 119209289550
+mp(left, right) {0,119209289550}
+mid 59604644775
+mp(left, right) {0,59604644775}
+mid 29802322387
+mp(left, right) {0,29802322387}
+mid 14901161193
+mp(left, right) {0,14901161193}
+mid 7450580596
+mp(left, right) {0,7450580596}
+mid 3725290298
+mp(left, right) {0,3725290298}
+mid 1862645149
+mp(left, right) {0,1862645149}
+mid 931322574
+mp(left, right) {0,931322574}
+mid 465661287
+mp(left, right) {0,465661287}
+mid 232830643
+mp(left, right) {0,232830643}
+mid 116415321
+mp(left, right) {0,116415321}
+mid 58207660
+mp(left, right) {0,58207660}
+mid 29103830
+mp(left, right) {0,29103830}
+mid 14551915
+mp(left, right) {0,14551915}
+mid 7275957
+mp(left, right) {0,7275957}
+mid 3637978
+mp(left, right) {0,3637978}
+mid 1818989
+mp(left, right) {0,1818989}
+mid 909494
+mp(left, right) {0,909494}
+mid 454747
+mp(left, right) {0,454747}
+mid 227373
+mp(left, right) {0,227373}
+mid 113686
+mp(left, right) {0,113686}
+mid 56843
+mp(left, right) {0,56843}
+mid 28421
+mp(left, right) {0,28421}
+mid 14210
+mp(left, right) {0,14210}
+mid 7105
+mp(left, right) {0,7105}
+mid 3552
+mp(left, right) {0,3552}
+mid 1776
+mp(left, right) {0,1776}
+mid 888
+mp(left, right) {0,888}
+mid 444
+mp(left, right) {0,444}
+mid 222
+mp(left, right) {0,222}
+mid 111
+mp(left, right) {0,111}
+mid 55
+mp(left, right) {0,55}
+mid 27
+mp(left, right) {0,27}
+mid 13
+mp(left, right) {0,13}
+mid 6
+mp(left, right) {0,6}
+mid 3
+mp(left, right) {0,3}
+mid 1
+mp(left, right) {1,3}
+mid 2

@@ -60,48 +60,64 @@ template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 
-const int MAX_N = 1e5 + 1;
+const int MAX_N = 2e5 + 1;
 const ll MOD = 1e9 + 7;
-const ll INF = 1e9;
+const ll INF = 1e18 + 1;
 
-int n,m;
-vi v[100001];
-int visited[100001];
-int ncycle;
-int nloop;
-vi cycle;
+ll x, y;    
+vector<pll> v(MAX_N);
 
-void dfs(int v, int p){
-  color[v] = 1; // GREY
-  for(int w : g[v]){
-    if(color[w] == 1){
-      // you found a cycle, it's easy to recover it now.
-    }
-    if(color[w] == 0) dfs(w, v);
-  }
-  color[v] = 2; // BLACK
-}
-
-void solve(){
-    f1(i,n){
-        if(!visited[i]){
-            debug(i);
-            if(cycleDetection(i, -1)) {
-                ncycle++;
+bool check(ll dist){
+    ll cnt = 0;
+    ll st;
+    f0(i,y){
+        if(!i){
+            ll len = v[i].ss - v[i].ff;
+            cnt += (len/dist + 1);
+            ll lastperson = len/dist * dist + v[i].ff;
+            st = lastperson + dist;
+        }else{
+            if(st <= v[i].ff){
+                ll len = v[i].ss - v[i].ff;
+                cnt += (len/dist + 1);
+                ll lastperson = len/dist * dist + 1;
+                st = lastperson + dist;
+            }else{
+                if(st > v[i].ss)    continue;
+                ll len = v[i].ss - st;
+                cnt += (len/dist + 1);
+                ll lastperson = len/dist * dist + st;
+                st = lastperson + dist;
             }
         }
+        // if(curr > v[i].ss)  continue;
+        // if(curr <= v[i].ff)  curr = v[i].ff;
+        // if(v[i].ss - curr >= 0){
+        //     ll temp = v[i].ss - curr;
+        //     ll val = (temp / dist) + 1;
+        //     cnt += val;
+        //     curr = curr + val*dist;
+        // }
+        // debug(cnt);
+        // if(cnt >= x) return true;
     }
-    cout<<m-2*nloop+ncycle<<endl;
+    return cnt >= x;
 }
 
-void makeGraph(){
-    f0(i,m){
-        int x, y;
-        cin>>x>>y;
-        v[x].pb(y);
-        if(x==y)    
-            nloop++;
+void solve() {
+    cin>>x>>y;
+    v.resize(y);
+    f0(i,y) cin>>v[i].ff>>v[i].ss;
+    sort(all(v));
+    ll left = 0, right = 1e18+1;
+    while(left < right - 1){
+        ll mid = left + (right - left) / 2;
+        debug(mp(left, right));
+        debug(mid);
+        if(check(mid))  left = mid;
+        else            right = mid;
     }
+    cout<<left<<endl;
 }
 
 int main() {
@@ -113,17 +129,9 @@ int main() {
       freopen("error.txt", "w", stderr);
     #endif
     int tc = 1;
-    cin >> tc;
-    
+    // cin >> tc;
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
-        cin>>n>>m;
-        f1(i,n){
-            v[i].clear();
-            visited[i]=0;
-        }
-        ncycle = nloop = 0;
-        makeGraph();
         solve();
     }
 }

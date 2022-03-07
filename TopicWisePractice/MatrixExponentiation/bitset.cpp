@@ -64,44 +64,31 @@ const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
-int n,m;
-vi v[100001];
-int visited[100001];
-int ncycle;
-int nloop;
-vi cycle;
+const int n = 10;
 
-void dfs(int v, int p){
-  color[v] = 1; // GREY
-  for(int w : g[v]){
-    if(color[w] == 1){
-      // you found a cycle, it's easy to recover it now.
-    }
-    if(color[w] == 0) dfs(w, v);
-  }
-  color[v] = 2; // BLACK
-}
+void solve() {
+    bitset<n> bs("100011"); // this string in the right
+    bitset<n> bs1(5);        // binary rep of 5
+    bitset<n> bs2();
+    cout<<bs<<endl;
+    // bs.set();   // set all bits as 1
+    // bs.reset();   // set all bits as 0
+    bs.set(2, 1);   // 2th pos i want tot set val 1
+    bs.set(1, 0);   // 1st pos i want tot set val 0
 
-void solve(){
-    f1(i,n){
-        if(!visited[i]){
-            debug(i);
-            if(cycleDetection(i, -1)) {
-                ncycle++;
-            }
-        }
-    }
-    cout<<m-2*nloop+ncycle<<endl;
-}
+    bs.flip();  // flips all position
+    bs.flip(3); // FLIPS AT POSITION 3
 
-void makeGraph(){
-    f0(i,m){
-        int x, y;
-        cin>>x>>y;
-        v[x].pb(y);
-        if(x==y)    
-            nloop++;
-    }
+    bs.any();   // TRUE - if any bit is set to 0
+    bs.count(); // Number of bits that are set
+
+    string s = bs.to_string();  // convert to string
+    int val = bs.to_ulong();    // convert to int
+    ll val = bs.to_ullong();    // convert to long long
+
+    cout<<bs<<endl;
+    f0(i,n) cout<<bs[i];
+    cout<<endl;
 }
 
 int main() {
@@ -113,17 +100,9 @@ int main() {
       freopen("error.txt", "w", stderr);
     #endif
     int tc = 1;
-    cin >> tc;
-    
+    //cin >> tc;
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
-        cin>>n>>m;
-        f1(i,n){
-            v[i].clear();
-            visited[i]=0;
-        }
-        ncycle = nloop = 0;
-        makeGraph();
         solve();
     }
 }

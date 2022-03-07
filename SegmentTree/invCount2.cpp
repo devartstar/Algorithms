@@ -64,44 +64,57 @@ const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
-int n,m;
-vi v[100001];
-int visited[100001];
-int ncycle;
-int nloop;
-vi cycle;
+vi v(MAX_N);
+vi segtree(4*MAX_N);
 
-void dfs(int v, int p){
-  color[v] = 1; // GREY
-  for(int w : g[v]){
-    if(color[w] == 1){
-      // you found a cycle, it's easy to recover it now.
+void buildTree(int si, int segstart, int segend){
+    if(segstart == segend){
+        segtree[si] = v[segstart];
+        return;
     }
-    if(color[w] == 0) dfs(w, v);
-  }
-  color[v] = 2; // BLACK
+    int mid = segstart + (segend - segstart)/2;
+    buildTree(2*si, segstart, mid);
+    buildTree(2*si + 1, mid+1, segend);
+    
+    segtree[si] = segtree[2*si] + segtree[2*si+1];
 }
 
-void solve(){
-    f1(i,n){
-        if(!visited[i]){
-            debug(i);
-            if(cycleDetection(i, -1)) {
-                ncycle++;
-            }
-        }
+int query(int si, int segstart, int segend, int k){
+    // COMPLETELY OUTSIDE
+    if(segstart == segend){
+        return segstart;
     }
-    cout<<m-2*nloop+ncycle<<endl;
+
+    ll mid = segstart + (segend - segstart) / 2;
+
+    if(segtree[2*si] <= k)
+        return query(2*si, segstart, mid, k);
+    else
+        return query(2*si+1, mid+1, segend, k - segtree[2*si]);
 }
 
-void makeGraph(){
-    f0(i,m){
-        int x, y;
-        cin>>x>>y;
-        v[x].pb(y);
-        if(x==y)    
-            nloop++;
+void update(int si, int segstart, int segend, int qi){
+    if(segstart == segend){
+        segtree[si] = v[segstart];
+        return;
     }
+    
+    int mid = segstart + (segend - segstart)/2;
+    
+    if(qi <= mid){
+        update(2*si, segstart, mid, qi);
+    }else{
+        update(2*si+1, mid+1, segend, qi);
+    }
+    
+    segtree[si] = (segtree[2*si] + segtree[2*si+1]);
+}
+
+void solve() {
+    int n;  cin>>n;
+    vi temp(n+1);
+    f1(i,n) cin>>temp[i], v[i] = 1;
+    buildTree(1,1,n);
 }
 
 int main() {
@@ -113,17 +126,9 @@ int main() {
       freopen("error.txt", "w", stderr);
     #endif
     int tc = 1;
-    cin >> tc;
-    
+    //cin >> tc;
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
-        cin>>n>>m;
-        f1(i,n){
-            v[i].clear();
-            visited[i]=0;
-        }
-        ncycle = nloop = 0;
-        makeGraph();
         solve();
     }
 }

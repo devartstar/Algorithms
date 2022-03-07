@@ -66,7 +66,7 @@ int main()
     }
     else if (choice == 2)
     {
-        AdjacencyList();
+        AdjacencyList();    
     }
     else
     {

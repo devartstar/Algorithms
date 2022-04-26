@@ -12,7 +12,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-
 #define ar array
 #define ll long long
 #define ull unsigned long long
@@ -62,54 +61,65 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
 const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
-ll n, d;
-const ll N = 405;
-ll dp[N][N][2];
 
-ll go(vector<ll> &a, ll l, ll r, ll x) {
-  if (l >= r) return 0;
-  if (dp[l][r][x] != -1) return dp[l][r][x];
-  ll &ans = dp[l][r][x];
-  ans = 1e15;
-  if (!x) {
-    ll p1 = go(a, l + 1, r, 0);
-    ll p2 = go(a, l + 1, r, 1);
-    ans = min(ans, p1 + min(abs(a[l] - a[l + 1]), d - abs(a[l] - a[l + 1])));
-    ans = min(ans, p2 + min(abs(a[l] - a[r]), d - abs(a[l] - a[r])));
-  } else {
-    ll p1 = go(a, l, r - 1, 0);
-    ll p2 = go(a, l, r - 1, 1);
-    ans = min(ans, p1 + min(abs(a[r] - a[l]), d - abs(a[r] - a[l])));
-    ans = min(ans, p2 + min(abs(a[r] - a[r - 1]), d - abs(a[r] - a[r - 1])));    
-  }
 
-  return ans;
+void solve() {
+	ll n;	cin>>n;
+	vll v(n);
+	map<ll, bool> m;
+	f0(i, n) cin >> v[i], m[v[i]] = true;
+	debug(m);
+	map<ll, bool> temp;
+	f0(i,n) {
+		temp = m;
+		bool ok = true;
+		ll cnt = 1, curr = v[i];
+		temp[v[i]] = false;
+		vll ans;
+		ans.pb(curr);
+		while(ok) {
+			debug(curr);
+			debug(temp[curr / 3]);
+			debug(temp[curr * 2]);
+			if(curr%3 == 0 && temp[curr/3]){
+				temp[curr / 3] = false;
+				curr = curr / 3;
+			}else if(curr*2 > 0 && temp[curr*2]){
+				temp[curr * 2] = false;
+				curr = curr * 2;
+			}else{
+				ok = false;
+				break;
+			}
+			ans.pb(curr);
+			debug(ans);
+			cnt++;
+			if(cnt == n)
+				break;
+		}
+
+		if(ok && cnt == n) {
+			for(ll x : ans)
+				cout << x << " ";
+			cout << endl;
+			return;
+		}
+	}
+	debug(-1);
 }
 
-void solve(){
-  cin >> n >> d;
-  vector<ll> a(n);
-
-  for (auto &x : a) cin >> x;
-  memset(dp, -1, sizeof dp);
-
-  ll ans = go(a, 0, n - 1, 0) + min(a[0], d - a[0]);
-  ans = min(ans, go(a, 0, n - 1, 1) + min(a[n - 1], d - a[n - 1]));
-
-  cout << ans << endl;
-}
 int main() {
 	ios_base::sync_with_stdio(0);
 	cin.tie(0); cout.tie(0);
-	// #ifndef ONLINE_JUDGE
-	//   freopen("input.txt","r",stdin);
-	//   freopen("output.txt","w",stdout);
-	//   freopen("error.txt", "w", stderr);
-	// #endif
+	#ifndef ONLINE_JUDGE
+	  freopen("input.txt","r",stdin);
+	  freopen("output.txt","w",stdout);
+	  freopen("error.txt", "w", stderr);
+	#endif
 	int tc = 1;
-	cin >> tc;
+	// cin >> tc;
 	f1(t,tc) {
-		cout << "Case #" << t  << ": ";
+		// cout << "Case #" << t  << ": ";
 		solve();
 	}
 }

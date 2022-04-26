@@ -12,7 +12,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-
 #define ar array
 #define ll long long
 #define ull unsigned long long
@@ -59,57 +58,63 @@ template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 
-const int MAX_N = 1e5 + 1;
+const int MAX_N = 2e5 + 5;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
-ll n, d;
-const ll N = 405;
-ll dp[N][N][2];
 
-ll go(vector<ll> &a, ll l, ll r, ll x) {
-  if (l >= r) return 0;
-  if (dp[l][r][x] != -1) return dp[l][r][x];
-  ll &ans = dp[l][r][x];
-  ans = 1e15;
-  if (!x) {
-    ll p1 = go(a, l + 1, r, 0);
-    ll p2 = go(a, l + 1, r, 1);
-    ans = min(ans, p1 + min(abs(a[l] - a[l + 1]), d - abs(a[l] - a[l + 1])));
-    ans = min(ans, p2 + min(abs(a[l] - a[r]), d - abs(a[l] - a[r])));
-  } else {
-    ll p1 = go(a, l, r - 1, 0);
-    ll p2 = go(a, l, r - 1, 1);
-    ans = min(ans, p1 + min(abs(a[r] - a[l]), d - abs(a[r] - a[l])));
-    ans = min(ans, p2 + min(abs(a[r] - a[r - 1]), d - abs(a[r] - a[r - 1])));    
-  }
+vi graph[MAX_N];
+vi visited(MAX_N);
+vi comp;
 
-  return ans;
+void dfs(int node) {
+	visited[node] = true;
+	comp.pb(node);
+	for(int child : graph[node]){
+		if (!visited[child]) {
+			dfs(child);
+		}
+	}
 }
 
-void solve(){
-  cin >> n >> d;
-  vector<ll> a(n);
-
-  for (auto &x : a) cin >> x;
-  memset(dp, -1, sizeof dp);
-
-  ll ans = go(a, 0, n - 1, 0) + min(a[0], d - a[0]);
-  ans = min(ans, go(a, 0, n - 1, 1) + min(a[n - 1], d - a[n - 1]));
-
-  cout << ans << endl;
+void solve() {
+	int n, m;
+	cin >> n >> m;
+	f0(i,m) {
+		int a,b;
+		cin >> a >> b;
+		graph[a].pb(b);
+		graph[b].pb(a);
+	}
+	ll cnt = 0;
+	f1(i,n) {
+		if(!visited[i]) {
+			comp.clear();
+			dfs(i);
+			bool ok = true;
+			for(int x : comp) {
+				if(graph[x].size() != 2){
+					ok = false;
+				}
+			}
+			if(ok)
+				cnt++;
+		}
+	}
+	cout << cnt << endl;
 }
+
 int main() {
 	ios_base::sync_with_stdio(0);
 	cin.tie(0); cout.tie(0);
-	// #ifndef ONLINE_JUDGE
-	//   freopen("input.txt","r",stdin);
-	//   freopen("output.txt","w",stdout);
-	//   freopen("error.txt", "w", stderr);
-	// #endif
+	#ifndef ONLINE_JUDGE
+	  freopen("input.txt","r",stdin);
+	  freopen("output.txt","w",stdout);
+	  freopen("error.txt", "w", stderr);
+	#endif
 	int tc = 1;
-	cin >> tc;
+	//cin >> tc;
 	f1(t,tc) {
-		cout << "Case #" << t  << ": ";
+		// cout << "Case #" << t  << ": ";
 		solve();
 	}
 }

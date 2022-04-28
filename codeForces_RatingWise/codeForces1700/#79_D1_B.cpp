@@ -1,12 +1,12 @@
 /*
-    -------------------------------------
-    |									|
-    |	Author - Devjit Choudhury		|
-    |	Date   - ___________________ 	|	
-    |    	                            |
-    -------------------------------------
+	-------------------------------------
+	|									|
+	|	Author - Devjit Choudhury		|
+	|	Date   - ___________________ 	|	
+	|    	                            |
+	-------------------------------------
 
-    Link - 
+	Link - 
 */
 
 #include <bits/stdc++.h>
@@ -62,37 +62,57 @@ const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
+bool cmp(pair<ll, ll>& a, pair<ll, ll>& b) {
+	return a.ss < b.ss;
+}
 
 void solve() {
-   ll n;
-   cin>>n;
-   bool found = false;
-   f0(i,n){
-       int temp = (n - i*2020);
-       if(temp<0){
-           break;
-       }
-       if(temp%2021==0){
-           found = true;
-           break;
-       }
-   }
-   if(found)    cout<<"YES"<<endl;
-   else         cout<<"NO"<<endl;
+	ll n, m;
+	cin >> n >> m;
+	vector <pair<ll, ll> > v(m);
+	for (ll i = 0; i < m; i++)
+		cin >> v[i].ff >> v[i].ss;
+	sort(all(v), cmp);
+	vll s;
+	vll pre;
+	s.pb(0);
+	pre.pb(1);
+	map <ll, ll> dp;
+	dp[0] = 1;
+	ll ans = 0;
+	for (ll i = 0; i < m; i++) {
+		ll ss;
+		ss = v[i].ff;
+		auto it = lower_bound(all(s), ss);
+		if (it == s.end())
+			continue;
+		ll in1 = it - s.begin();
+		//cout << in1 << "\n";
+		if (s[s.size() - 1] != v[i].ss) {
+			dp[v[i].ss] = (pre[pre.size() - 1] - ((in1 == 0) ? 0 : pre[in1 - 1]) + MOD) % MOD;
+			pre.pb((pre[pre.size() - 1] + dp[v[i].ss]) % MOD);
+			s.pb(v[i].ss);
+		}
+		else {
+			dp[v[i].ss] = (dp[v[i].ss] + pre[pre.size() - 2] - ((in1 == 0) ? 0 : pre[in1 - 1]) + MOD) % MOD;
+			pre[pre.size() - 1] = (pre[pre.size() - 1] + pre[pre.size() - 2] - ((in1 == 0) ? 0 : pre[in1 - 1]) + MOD) % MOD;
+		}
+	}
+	cout << dp[n] << "\n";
 }
 
 int main() {
-    ios_base::sync_with_stdio(0);
-    cin.tie(0); cout.tie(0);
-    #ifndef ONLINE_JUDGE
-      freopen("input.txt","r",stdin);
-      freopen("output.txt","w",stdout);
-      freopen("error.txt", "w", stderr);
-    #endif
-    int tc = 1;
-    cin >> tc;
-    f1(t,tc) {
-        // cout << "Case #" << t  << ": ";
-        solve();
-    }
+	ios_base::sync_with_stdio(0);
+	cin.tie(0); cout.tie(0);
+	#ifndef ONLINE_JUDGE
+	  freopen("input.txt","r",stdin);
+	  freopen("output.txt","w",stdout);
+	  freopen("error.txt", "w", stderr);
+	#endif
+	int tc = 1;
+	// cin >> tc;
+	f1(t,tc) {
+		// cout << "Case #" << t  << ": ";
+		solve();
+	}
 }

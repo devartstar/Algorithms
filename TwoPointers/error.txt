@@ -1,0 +1,8 @@
+sum 1
+mp(left, right) {0,0}
+sum 3
+mp(left, right) {0,1}
+sum 5
+mp(left, right) {0,2}
+sum 5
+mp(left, right) {2,3}

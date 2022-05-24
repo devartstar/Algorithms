@@ -2,7 +2,7 @@
     -------------------------------------
     |									|
     |	Author - Devjit Choudhury		|
-    |	Date   - ___________________ 	|	
+    |	Date   - ___________________ 	|
     |    	                            |
     -------------------------------------
 
@@ -17,7 +17,6 @@ using namespace std;
 #define ull unsigned long long
 #define lld long double
 #define vi vector<int>
-#define vb vector<bool>
 #define pii pair<int,int>
 #define pll pair<long, long>
 #define vll vector<long long>
@@ -33,7 +32,6 @@ using namespace std;
 #define ff first
 #define ss second
 #define mp make_pair
-#define endl '\n'
 
 #ifndef ONLINE_JUDGE
 #define debug(x) cerr << #x <<" "; _print(x); cerr << endl;
@@ -64,62 +62,51 @@ const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
-bool sortbysec(const pair<int,int> &a,const pair<int,int> &b)
-{
-    return (a.second < b.second);
-}
-
 
 void solve() {
-    int n;
-    cin>>n;
-    vpii digit[10];
-    f0(i,n){
-        string s;   
-        cin>>s;
-        f0(j,n){
-            digit[s[j]-'0'].pb(mp(i,j));
+    int n;  cin>>n;
+    vpii v(n);
+    map<pii, int> m;
+    f0(i, n) {
+        int x, r;
+        cin >> x >> r;
+        v[i].ff = x - r;
+        v[i].ss = x + r;
+        m[v[i]] = i;
+    }
+    sort(all(v));
+    debug(v);
+
+    int q;
+    cin >> q;
+    vi ans(n, -1);
+    f1(i,q) {
+        int x, y;
+        cin>>x>>y;
+        int pos = upper_bound(all(v), mp(x, y)) - v.begin();
+        debug(mp(i, pos));
+        if(pos >= n) {
+            pos = n-1;
         }
-    }
-
-    vi final_ans(10, 0);
-
-    f0(i,10){
-        sort(all(digit[i]));
-        debug(digit[i]);
-    }
-    for(int d=0; d<10; d++){
-        int ans = 0, ans1 = 0;
-        int i=0;
-        int j=(int)digit[d].size()-1;
-        if(j>=0){
-            ans = abs(digit[d][i].ff - digit[d][j].ff)*max(digit[d][i].ss, n-digit[d][i].ss-1);
-            ans1 = abs(digit[d][i].ff - digit[d][j].ff)*max(digit[d][j].ss, n-digit[d][j].ss-1);
+        while(pos >= 0 && v[pos].ss >= x) {
+            if(ans[m[v[pos]]] != -1) {
+                pos--;
+                continue;
+            }
+            ll xhole = (v[pos].ff + v[pos].ss) / 2;
+            ll radius = (v[pos].ss - v[pos].ff) / 2;
+            if ((xhole - x) * (xhole - x) + y * y <= radius*radius) {
+                ans[m[v[pos]]] = i;
+            }
+            pos--;
         }
-        final_ans[d] = max(final_ans[d], max(ans, ans1));
+        debug(ans);
     }
-    debug(final_ans);
-
-    f0(i,10){
-        sort(all(digit[i]), sortbysec);
-        debug(digit[i]);
-    }
-    for(int d=0; d<10; d++){
-        int ans = 0, ans1 = 0;
-        int i=0;
-        int j=(int)digit[d].size()-1;
-        if(j>=0){
-            ans = abs(digit[d][i].ss - digit[d][j].ss)*max(digit[d][i].ff, n-digit[d][i].ff-1);
-            ans1 = abs(digit[d][i].ss - digit[d][j].ss)*max(digit[d][j].ff, n-digit[d][j].ff-1);
-        }
-        final_ans[d] = max(final_ans[d], max(ans, ans1));
-    }
-    debug(final_ans);
-
-    f0(i,10){
-        cout<<final_ans[i]<<" ";
-    }
-    cout<<endl;
+    ll cnt = 0;
+    f0(i, n) if (ans[i] != -1) cnt++;
+    cout << cnt << endl;
+    f0(i, n) cout << ans[i] << " ";
+    cout << endl;
 }
 
 int main() {
@@ -131,10 +118,9 @@ int main() {
       freopen("error.txt", "w", stderr);
     #endif
     int tc = 1;
-    cin >> tc;
+    //cin >> tc;
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
-        debug(t);
         solve();
     }
 }

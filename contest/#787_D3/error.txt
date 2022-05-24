@@ -1,0 +1,20 @@
+ch [ a b c d e f g h i j k l m n o p q r s t u v w x y z ]
+temp 2
+ch [ a a a d e f g h i j k l m n o p q r s t u v w x y z ]
+ch [ a b c d e f g h i j k l m n o p q r s t u v w x y z ]
+temp 5
+ch [ a a a a a a g h i j k l m n o p q r s t u v w x y z ]
+ch [ a b c d e f g h i j k l m n o p q r s t u v w x y z ]
+temp 6
+ch [ a b b b b b b h i j k l m n o p q r s t u v w x y z ]
+ch [ a b c d e f g h i j k l m n o p q r s t u v w x y z ]
+temp 4
+ch [ a a a a a f g h i j k l m n o p q r s t u v w x y z ]
+sum 15
+cc k
+temp 6
+cc - temp - 'a' 4
+ch [ a a a a a a a a a a a l m n o p q r s t u v w x y z ]
+cc y
+temp 14
+cc - sum - 'a' 15

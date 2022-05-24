@@ -1,0 +1,16 @@
+val 0
+*it 3
+val 3
+val 0
+*it 5
+val 1
+val 0
+*it 1000000000
+val 1
+*it 1337
+val 2
+val 0
+*it 8
+val 3
+*it 3
+val 3

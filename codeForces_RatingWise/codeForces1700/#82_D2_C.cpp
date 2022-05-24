@@ -63,47 +63,35 @@ const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
 struct str {
-	int a, b, c, d;
-	lld temp;
+	ll a, b, c, d;
 };
 
-bool cmp(str x, str y) {
-	return x.temp > y.temp;
-}
-
 void solve() {
-	ll n, m, c, d;
-	cin >> n >> m >> c >> d;
-	
-	vector<str> v(m);
-	f0(i, m) cin >> v[i].a >> v[i].b >> v[i].c >> v[i].d, v[i].temp = double(v[i].d * 1.0 / v[i].c);
-	
-	sort(all(v), cmp);
-
-	bool done = false;
-	ll ans = 0, left = n, i = 0;
-	while(left > 0) {
-		if(!done && (lld)(d*1.0 / c) > v[i].temp) {
-			ans += ((left / c) * d);
-			left = left % c;
-			done = true;
-			continue;
+	ll n, m, c0, d0;
+	cin >> n >> m >> c0 >> d0;
+	vector<str> v(m+1);
+	f1(i, m) cin >> v[i].a >> v[i].b >> v[i].c >> v[i].d;
+	ll dp[m + 1][n + 1];
+	memset(dp, 0ll, sizeof(dp));
+	f1(i, m) {
+		f1(j, n) {
+			f0(k, (v[i].a / v[i].b) + 1) {
+				// debug(mp(mp(i,j), k));
+				if(j - v[i].c * k >= 0){
+					dp[i][j] = max(dp[i][j], dp[i - 1][j - v[i].c * k] + v[i].d * k);
+				}else{
+					break;
+				}
+			}
 		}
-		i++;
-		if(left / v[i].c < v[i].a / v[i].b) {
-			ans += (left / v[i].c) * v[i].d;
-			left = left % v[i].c;
-		}else{
-			ans += (v[i].a / v[i].b) * v[i].d;
-			left = left - (v[i].a / v[i].b) * v[i].c;
-		}
-		i++;
-		if(i >= m)
-			break;
 	}
-	if(!done) {
-		ans += ((left / c) * d);
-		done = true;
+	// f1(i, m){
+	// 	f1(j, n) cout << dp[i][j] << " ";
+	// 	cout << endl;
+	// }
+	ll ans = -INF;
+	f0(i, n + 1) {
+		ans = max(ans, dp[m][i] + (n - i) / c0 * d0);
 	}
 	cout << ans << endl;
 }
@@ -117,7 +105,7 @@ int main() {
 	  freopen("error.txt", "w", stderr);
 	#endif
 	int tc = 1;
-	cin >> tc;
+	//cin >> tc;
 	f1(t,tc) {
 		// cout << "Case #" << t  << ": ";
 		solve();

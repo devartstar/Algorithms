@@ -2,7 +2,7 @@
     -------------------------------------
     |									|
     |	Author - Devjit Choudhury		|
-    |	Date   - ___________________ 	|	
+    |	Date   - ___________________ 	|
     |    	                            |
     -------------------------------------
 
@@ -17,7 +17,6 @@ using namespace std;
 #define ull unsigned long long
 #define lld long double
 #define vi vector<int>
-#define vb vector<bool>
 #define pii pair<int,int>
 #define pll pair<long, long>
 #define vll vector<long long>
@@ -33,7 +32,6 @@ using namespace std;
 #define ff first
 #define ss second
 #define mp make_pair
-#define endl '\n'
 
 #ifndef ONLINE_JUDGE
 #define debug(x) cerr << #x <<" "; _print(x); cerr << endl;
@@ -64,52 +62,34 @@ const int MAX_N = 1e5 + 1;
 const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
-int N;
-vi isPrime(MAX_N, true);
-vi prime;
-vi element_taken(20, false);
-int ans;
-
-void sieve(int x){
-    isPrime[0] = isPrime[1] = false;
-    for(int i=2; i<=x; i++){
-        if(isPrime[i]){
-            for(int j=i*2; j<=x; j+=i){
-                isPrime[j] = false;
-            }
-        }
-    }
-    f(i,2,2*x){
-        if(isPrime[i])
-            prime.pb(i);
-    }
-    debug(prime);
-}basic  
-
-void rec(int ind, int prevEle){
-    if(ind > N){
-        ans++;
-        cout<<endl;
-        return;
-    }
-    for(int p : prime){
-        if(p - prevEle<=N && p - prevEle>0 && element_taken[p-prevEle]==false){
-            element_taken[p-prevEle] = true;
-            cout<<p-prevEle<<" ";
-            rec(ind+1, p-prevEle);
-            element_taken[p-prevEle] = false;
-        }
-    }
+bool compute(vi v){
+    f0(i, 31) if (v[i] > 0) return true;
+    return false;
 }
 
 void solve() {
-    cin>>N;
-    sieve(2*N);
-    element_taken[1] = true;
-    rec(2, 1);
-    // finxing the first element to be always 1 to avoid cycles
-    // hence starting from the second element
-    cout<<ans<<endl;
+    ll n, w;
+    cin>>n>>w;
+    vi v(31, 0);
+    f0(i,n) {
+        int x;
+        cin >> x;
+        v[(int)log2(x)]++;
+    }
+    debug(v);
+    ll ans = 0;
+    while(compute(v)) {
+        ll left = w;
+        ans++;
+        for (int i = 30; i >= 0; i--) {
+            ll val = (1ll << i);
+            int cnt = min(left / val, v[i]*1ll);
+            left -= (cnt * val);
+            v[i] -= cnt;
+        }
+        debug(v);
+    }
+    cout << ans << endl;
 }
 
 int main() {
@@ -121,7 +101,7 @@ int main() {
       freopen("error.txt", "w", stderr);
     #endif
     int tc = 1;
-    //cin >> tc;
+    cin >> tc;
     f1(t,tc) {
         // cout << "Case #" << t  << ": ";
         solve();

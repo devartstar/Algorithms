@@ -52,3 +52,23 @@ int main()
         cout << "Bipartite Graph" << endl;
     }
 }
+
+/*
+// bipartite
+bool dfs(int node, int col) {
+    visited[node] = 1;
+    color[node] = col;
+    for(int child : graph[node]) {
+        if(!visited[child]) {
+            bool ok = dfs(child, node, col^1);
+            if(!ok)
+                return false;
+        } else {
+            if(color[child] == color[node]) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+*/

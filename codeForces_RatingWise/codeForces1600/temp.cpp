@@ -1,59 +1,67 @@
+
+
 #include <bits/stdc++.h>
 using namespace std;
 
-int ans;
+#define f0(i, n) for(int i = 0; i < n; i++)
+#define ff first
+#define ss second
 
-void proc(vector<int>& a) {
-    if (a.empty()) return;
-    int n = a.size();
-    int last = 0;
-    for (int i = 0; i < n; ++i) {
-        if (a[i] == a[0]) {
-            last = i;
-        } else {
-            break;
-        }
-    }
-    --a[last];
-    for (int i = 0; i < n; ++i) --a[i];
-    ++ans;
-    while (!a.empty() && a.back() <= 0) {
-        a.pop_back();
-    }
-    proc(a);
+void solve() {
+    int n;
+	cin >> n;
+	string s;
+	cin>>s;
+	vector<int> v(n), parent(n);
+	f0(i, n) {
+		cin>>v[i];
+		parent[v[i] - 1] = i;
+	}
+	vector<int> visited(n, 0), aa;
+	f0(i, n) {
+		if(visited[i]) continue;
+		string temp;
+		visited[i] = 1;
+		temp += s[i];
+		int next = parent[i];
+		while(next != i) {
+			temp += s[next];
+			visited[next] = 1;
+			next = parent[next];
+		}
+		// temp -> all characters that will come to pos 1
+		
+		string pre = temp;
+		f0(i, temp.length()) {
+			rotate(temp.rbegin(), temp.rbegin()+1, temp.rend());
+			// move all 1 place right
+			if(temp == pre) {
+				aa.push_back(i+1);
+				break;
+			}
+		}
+	}
+	long long ans = aa[0];
+	f0(i, aa.size()) {
+		ans = (1ll * ans * aa[i]) / __gcd(ans, aa[i] * 1ll);
+	}
+	cout<<ans<<endl;
 }
 
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(nullptr);
-    cout.tie(nullptr);
-    int T;
-    cin >> T;
-    while (T --> 0) {
-        int n;
-        cin >> n;
-        vector<int> a(n);
-        ans = 0;
-        for (int i = 1; i < n; ++i) {
-            int x;
-            cin >> x;
-            ++a[--x];
-        }
-        a.emplace_back(1);
-        sort(a.rbegin(), a.rend());
-        while (!a.empty() && a.back() <= 0) a.pop_back();
-        n = a.size();
-        for (int i = 0; i < n; ++i) {
-            a[i] = a[i] - (n - i);
-            ++ans;
-        }
-        sort(a.rbegin(), a.rend());
-		for(int x : a)
-			cout << x << " ";
-		cout << endl;
-		while (!a.empty() && a.back() <= 0) a.pop_back();
-        proc(a);
-        cout << ans << '\n';
+    int t;
+    cin>>t;
+    while(t--) {
+        solve();
     }
-    return 0;
 }
+
+
+
+
+
+
+
+
+
+

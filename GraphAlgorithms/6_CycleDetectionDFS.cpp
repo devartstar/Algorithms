@@ -72,3 +72,20 @@ int main() {
         	cout<<"Cycle Not Detected"<<endl;
     }
 }
+
+
+// cycle detection
+// bool isCycle(int node, int par) {
+// 	visited[node] = 1;
+// 	for(int child : graph[node]) {
+// 		if(!visited[child]) {
+// 			bool ok = isCycle(child, node);
+// 			if(ok)
+// 				return true;
+// 		} else {
+// 			if(child != par)
+// 				return true;
+// 		}
+// 	}
+// 	return false;
+// }

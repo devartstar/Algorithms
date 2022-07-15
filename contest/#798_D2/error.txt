@@ -1,0 +1,10 @@
+len 2
+mp(x_sum, y_sum) {2,1}
+len 3
+mp(x_sum, y_sum) {3,3}
+len 4
+mp(x_sum, y_sum) {2,2}
+len 13
+mp(x_sum, y_sum) {26,26}
+len 3
+mp(x_sum, y_sum) {14,12}

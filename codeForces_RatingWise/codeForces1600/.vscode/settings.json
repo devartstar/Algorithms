@@ -3,6 +3,9 @@
         "*.cpp": "cpp",
         "iostream": "cpp",
         "ostream": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "*.tcc": "cpp",
+        "sstream": "cpp",
+        "regex": "cpp"
     }
 }

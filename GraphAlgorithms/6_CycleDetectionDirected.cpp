@@ -153,3 +153,45 @@ int main() {
         solve();
     }
 }
+
+/*
+// directed graph cycle
+ll n, m;
+vll graph[1001];
+vector<bool> visited(1001);
+vector<bool> recStack(1001);
+
+
+bool isCyclicUtil(int node) {
+     if(!visited[node]) {
+          visited[node] = recStack[node] = true;
+          for(int child : graph[node]) {
+               if(!visited[child]){
+                    if(isCyclicUtil(child)) return true;
+               } else {
+                    if(recStack[child]) return true;
+               }
+          }
+     }
+     recStack[node] = false;
+     return false;
+}
+
+bool isCyclic() {
+     for(int i = 1; i <= n; i++) {
+          if(isCyclicUtil(i)) return true;
+     }
+     return false;
+}
+
+void solve() {
+     cin >> n >> m;
+     for(int i = 0; i < m; i++) {
+          int x, y; cin >> x >> y;
+          graph[x].push_back(y);
+     }
+     bool ok = isCyclic();
+     if(ok) cout<<"Cyclic"<<endl;
+     else cout<<"Not Cyclic"<<endl;
+}
+*/
